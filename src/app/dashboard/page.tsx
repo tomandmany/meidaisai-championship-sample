@@ -17,7 +17,7 @@ export default async function Page() {
     // 投票数の多い順にソート
     const sortedVotes = Object.entries(voteCounts).sort(([, a], [, b]) => b - a);
 
-    console.log('Sorted votes:', sortedVotes);  // デバッグ: 集計結果を確認
+    // console.log('Sorted votes:', sortedVotes);  // デバッグ: 集計結果を確認
     return sortedVotes;
   };
 

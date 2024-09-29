@@ -2,8 +2,15 @@
 import { supabase } from "@/lib/supabaseClient";
 import { revalidatePath } from "next/cache";
 
+// 日本時間を取得する関数
+function getJSTDate(): string {
+  const now = new Date();
+  return now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+}
+
 export async function insertVote({ line_id, booth, outstage, room }: { line_id: string, booth: string, outstage: string, room: string }) {
-  console.log('Inserting vote:', { line_id, booth, outstage, room });  // ログを追加して確認
+  console.log('Inserting vote:', { line_id, booth, outstage, room });
+
   const { error: insertError } = await supabase
     .from('votes')
     .insert({
@@ -11,7 +18,6 @@ export async function insertVote({ line_id, booth, outstage, room }: { line_id: 
       booth,
       outstage,
       room,
-      // created_at: new Date().toISOString(), // 作成日時を挿入
     });
 
   if (insertError) {

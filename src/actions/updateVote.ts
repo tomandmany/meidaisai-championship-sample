@@ -1,6 +1,11 @@
 'use server';
-
 import { supabase } from '@/lib/supabaseClient';
+
+// 日本時間を取得する関数
+function getJSTDate(): string {
+  const now = new Date();
+  return now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+}
 
 export async function updateVote({
   voteId,
@@ -21,9 +26,9 @@ export async function updateVote({
       booth,
       outstage,
       room,
-      updated_at: new Date().toISOString(), // 更新日時を現在時刻に設定
+      updated_at: getJSTDate(), // 日本時間で更新日時を設定
     })
-    .eq('id', voteId); // IDで一致するものを更新
+    .eq('id', voteId);
 
   if (updateError) {
     console.error('Supabase Update Error:', updateError);
