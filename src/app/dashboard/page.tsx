@@ -17,11 +17,8 @@ export default async function Page() {
     // 投票数の多い順にソート
     const sortedVotes = Object.entries(voteCounts).sort(([, a], [, b]) => b - a);
 
-    // 3位までの得票数を取得
-    const thirdPlaceVoteCount = sortedVotes[2]?.[1];
-
-    // 3位の投票数と同じ得票数のものを含めた結果を取得
-    return sortedVotes.filter(([, count]) => count >= thirdPlaceVoteCount);
+    console.log('Sorted votes:', sortedVotes);  // デバッグ: 集計結果を確認
+    return sortedVotes;
   };
 
   // 各部門の上位3位を取得
@@ -36,7 +33,7 @@ export default async function Page() {
         <br />
         上位3位までの得票数
       </h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <CategorySection title="模擬店" votes={topBoothVotes} />
         <CategorySection title="屋外ステージ" votes={topOutstageVotes} />
