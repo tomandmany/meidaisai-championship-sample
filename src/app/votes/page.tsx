@@ -5,6 +5,12 @@ import LotteryTicket from '../../components/LotteryTicket';
 import { getVotes } from '@/data/getVotes';
 import { getVotesHistory } from '@/data/getVotesHistory'; // 新しい関数をインポート
 
+// Dateオブジェクトを日本時間に変換するヘルパー関数
+function formatToJST(utcDateString: string) {
+  const utcDate = new Date(utcDateString);
+  return utcDate.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+}
+
 export default async function Page() {
   const { userId } = auth();
 
@@ -37,8 +43,8 @@ export default async function Page() {
                   <p>模擬店: {vote.booth}</p>
                   <p>屋外ステージ: {vote.outstage}</p>
                   <p>教室: {vote.room}</p>
-                  <p>投票日時: {new Date(vote.created_at).toLocaleString()}</p>
-                  <p>更新日時: {new Date(vote.updated_at).toLocaleString()}</p>
+                  <p>投票日時: {new Date(formatToJST(vote.created_at)).toLocaleString()}</p>
+                  <p>更新日時: {new Date(formatToJST(vote.updated_at)).toLocaleString()}</p>
                 </li>
               ))}
             </ul>
