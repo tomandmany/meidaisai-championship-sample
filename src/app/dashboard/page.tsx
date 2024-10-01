@@ -1,8 +1,8 @@
 // app/page.tsx
-import { getVotesByOnlyPrograms } from "@/data/getVotesByOnlyPrograms";
+import { getTopVotesByCategory } from "@/data/getTopVotesByCategory";
 
 export default async function Page() {
-  const votes = await getVotesByOnlyPrograms();
+  const votes = await getTopVotesByCategory();
 
   // 部門ごとの投票数を集計する関数
   const countVotes = (votes: { [key: string]: string }[], category: string) => {

@@ -3,55 +3,77 @@ import { auth } from '@clerk/nextjs/server';
 import MCForm from '../../components/MCForm';
 import LotteryTicket from '../../components/LotteryTicket';
 import { getVotes } from '@/data/getVotes';
-import { getVotesHistory } from '@/data/getVotesHistory'; // 新しい関数をインポート
-
-// Dateオブジェクトを日本時間に変換するヘルパー関数
-function formatToJST(utcDateString: string) {
-  const utcDate = new Date(utcDateString);
-  return utcDate.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
-}
+import { getVotesHistory } from '@/data/getVotesHistory';
+import SignOutButton from '@/components/SignOutButton';
+import { isVotingPeriod } from '@/lib/votingPeriod';
+import Link from 'next/link';
+import VoteHistory from '@/components/VoteHistory';
 
 export default async function Page() {
   const { userId } = auth();
 
-  // ユーザーがログインしていない場合、ログインページにリダイレクト
-  if (!userId) {
-    redirect('/sign-in');
-  }
+  // サーバーサイドで投票期間を判定
+  const votingStatus = isVotingPeriod();
 
   // ユーザーの投票データを取得
-  const existingVote = await getVotes(userId);
+  const existingVote = await getVotes(userId!);
 
   // 3日間の投票履歴を取得
-  const votesHistory = await getVotesHistory(userId);
+  const votesHistory = await getVotesHistory(userId!);
 
   // 既存データがあるかどうかを判定
   const hasExistingDataForToday = existingVote !== null;
 
+  // 投票期間前
+  if (!userId && votingStatus.isBefore) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center p-24">
+        <div className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
+          <h1 className="text-3xl font-bold mb-4">投票期間前です。</h1>
+          <p className="text-lg">11/2〜11/4の本祭期間中に投票できます。</p>
+        </div>
+      </main>
+    );
+  }
+
+  // 投票期間中でログインしていない場合はログインページにリダイレクト
+  if (!userId && votingStatus.isDuring) {
+    redirect('/sign-in');
+  }
+
+  // 投票期間後
+  if (votingStatus.isAfter) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center p-24 gap-10">
+        {userId ? (
+          <>
+            <div className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
+              <h1 className="text-3xl font-bold">投票期間は終了しました。</h1>
+            </div>
+            <VoteHistory votesHistory={votesHistory} />
+            <SignOutButton />
+          </>
+        ) : (
+          <>
+            <div className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
+              <h1 className="text-3xl font-bold mb-4">投票期間は終了しました。</h1>
+              <p className="text-lg">ログインして投票履歴を見ることができます。</p>
+            </div>
+            <Link href="/sign-in" className='p-4 rounded-lg bg-green-500 hover:bg-green-600 text-white'>ログインする</Link>
+          </>
+        )}
+      </main>
+    );
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="flex flex-wrap gap-10">
-        <MCForm userId={userId} />
-        <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold mb-4">過去3日間の投票履歴</h2>
-          {votesHistory.length === 0 ? (
-            <p>投票履歴がありません。</p>
-          ) : (
-            <ul className="space-y-4">
-              {votesHistory.map((vote) => (
-                <li key={vote.id} className="p-4 bg-white rounded-lg shadow-sm">
-                  <p>模擬店: {vote.booth}</p>
-                  <p>屋外ステージ: {vote.outstage}</p>
-                  <p>教室: {vote.room}</p>
-                  <p>投票日時: {new Date(formatToJST(vote.created_at)).toLocaleString()}</p>
-                  <p>更新日時: {new Date(formatToJST(vote.updated_at)).toLocaleString()}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        <MCForm userId={userId!} />
+        <VoteHistory votesHistory={votesHistory} />
       </div>
       <LotteryTicket hasExistingDataForToday={hasExistingDataForToday} />
+      <SignOutButton />
     </main>
   );
 }
