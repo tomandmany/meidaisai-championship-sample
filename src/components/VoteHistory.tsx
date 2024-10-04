@@ -1,3 +1,7 @@
+// src/components/VoteHistory.tsx
+
+'use client';
+
 import React from 'react';
 
 type VoteHistoryProps = {
@@ -46,7 +50,7 @@ export default function VoteHistory({ votesHistory, testDate }: VoteHistoryProps
             }
 
             if (!dayLabel) {
-              return <p>期間内に投票がありません。</p>;
+              return <p key={vote.id}>期間内に投票がありません。</p>;
             }
 
             return (
