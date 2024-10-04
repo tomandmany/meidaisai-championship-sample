@@ -1,7 +1,11 @@
+// app/(your-path)/page.tsx
+
+// use clientは不要
+
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import MCForm from '../../components/MCForm';
-import LotteryTicket from '../../components/LotteryTicket';
+import MCForm from '../../../components/MCForm';
+import LotteryTicket from '../../../components/LotteryTicket';
 import { getVotes } from '@/data/getVotes';
 import { getVotesHistory } from '@/data/getVotesHistory';
 import SignOutButton from '@/components/SignOutButton';
@@ -9,11 +13,17 @@ import { isVotingPeriod } from '@/lib/votingPeriod';
 import Link from 'next/link';
 import VoteHistory from '@/components/VoteHistory';
 
-export default async function Page() {
+export default async function Page({ searchParams }: { searchParams: { testStartDate?: string, testEndDate?: string, testNowDate?: string } }) {
   const { userId } = auth();
 
+  const testDate = {
+    testStartDate: searchParams.testStartDate || '11-02',
+    testEndDate: searchParams.testEndDate || '11-04',
+    testNowDate: searchParams.testNowDate ? new Date(`2024-${searchParams.testNowDate}`) : undefined
+  }
+
   // サーバーサイドで投票期間を判定
-  const votingStatus = isVotingPeriod();
+  const votingStatus = isVotingPeriod(testDate.testStartDate, testDate.testEndDate, testDate.testNowDate);
 
   // ユーザーの投票データを取得
   const existingVote = await getVotes(userId!);
@@ -25,7 +35,7 @@ export default async function Page() {
   const hasExistingDataForToday = existingVote !== null;
 
   // 投票期間前
-  if (!userId && votingStatus.isBefore) {
+  if (votingStatus.isBefore) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center p-24">
         <div className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
@@ -37,7 +47,7 @@ export default async function Page() {
   }
 
   // 投票期間中でログインしていない場合はログインページにリダイレクト
-  if (!userId && votingStatus.isDuring) {
+  if (votingStatus.isDuring && !userId) {
     redirect('/sign-in');
   }
 
@@ -50,7 +60,7 @@ export default async function Page() {
             <div className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
               <h1 className="text-3xl font-bold">投票期間は終了しました。</h1>
             </div>
-            <VoteHistory votesHistory={votesHistory} />
+            <VoteHistory votesHistory={votesHistory} testDate={testDate} />
             <SignOutButton />
           </>
         ) : (
@@ -70,7 +80,7 @@ export default async function Page() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="flex flex-wrap gap-10">
         <MCForm userId={userId!} />
-        <VoteHistory votesHistory={votesHistory} />
+        <VoteHistory votesHistory={votesHistory} testDate={testDate} />
       </div>
       <LotteryTicket hasExistingDataForToday={hasExistingDataForToday} />
       <SignOutButton />

@@ -1,25 +1,9 @@
 // app/page.tsx
 import { getTopVotesByCategory } from "@/data/getTopVotesByCategory";
+import countVotes from "@/lib/countVotes";
 
 export default async function Page() {
   const votes = await getTopVotesByCategory();
-
-  // 部門ごとの投票数を集計する関数
-  const countVotes = (votes: { [key: string]: string }[], category: string) => {
-    const voteCounts = votes.reduce((acc: Record<string, number>, vote) => {
-      const categoryValue = vote[category];
-      if (categoryValue) {
-        acc[categoryValue] = (acc[categoryValue] || 0) + 1;
-      }
-      return acc;
-    }, {});
-
-    // 投票数の多い順にソート
-    const sortedVotes = Object.entries(voteCounts).sort(([, a], [, b]) => b - a);
-
-    // console.log('Sorted votes:', sortedVotes);  // デバッグ: 集計結果を確認
-    return sortedVotes;
-  };
 
   // 各部門の上位3位を取得
   const topBoothVotes = countVotes(votes, 'booth');

@@ -5,7 +5,6 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 import "./globals.css";
 import { jaJP } from "../localization/ja-JP";
-import Header from "../components/Header";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,7 +24,6 @@ export default function RootLayout({
       <html lang="ja">
         <body className={inter.className}>
           <Toaster position="top-center" />
-          {/* <Header /> */}
           {children}
         </body>
       </html>
