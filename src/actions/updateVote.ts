@@ -1,11 +1,6 @@
 'use server';
+import getJSTDate from '@/lib/getJSTDate';
 import { supabase } from '@/lib/supabaseClient';
-
-// 日本時間を取得する関数
-function getJSTDate(): string {
-  const now = new Date();
-  return now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
-}
 
 export async function updateVote({
   voteId,

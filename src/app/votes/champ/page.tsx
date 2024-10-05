@@ -1,38 +1,26 @@
-// app/(your-path)/page.tsx
-
-// use clientは不要
-
 import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
-import MCForm from '../../../components/MCForm';
-import LotteryTicket from '../../../components/LotteryTicket';
-import { getVotes } from '@/data/getVotes';
+import MCForm from '@/components/MCForm';
+import LotteryTicket from '@/components/LotteryTicket';
 import { getVotesHistory } from '@/data/getVotesHistory';
 import SignOutButton from '@/components/SignOutButton';
 import { isVotingPeriod } from '@/lib/votingPeriod';
 import Link from 'next/link';
 import VoteHistory from '@/components/VoteHistory';
 
-export default async function Page({ searchParams }: { searchParams: { testStartDate?: string, testEndDate?: string, testNowDate?: string } }) {
+export default async function Page({ searchParams }: { searchParams: { testDate?: string } }) {
   const { userId } = auth();
 
-  const testDate = {
-    testStartDate: searchParams.testStartDate || '11-02',
-    testEndDate: searchParams.testEndDate || '11-04',
-    testNowDate: searchParams.testNowDate ? new Date(`2024-${searchParams.testNowDate}`) : undefined
-  }
+  const testDate = searchParams.testDate ? new Date(`2024-${searchParams.testDate}`) : undefined
 
   // サーバーサイドで投票期間を判定
-  const votingStatus = isVotingPeriod(testDate.testStartDate, testDate.testEndDate, testDate.testNowDate);
-
-  // ユーザーの投票データを取得
-  const existingVote = await getVotes(userId!);
+  const votingStatus = isVotingPeriod(testDate);
 
   // 3日間の投票履歴を取得
   const votesHistory = await getVotesHistory(userId!);
 
   // 既存データがあるかどうかを判定
-  const hasExistingDataForToday = existingVote !== null;
+  const hasExistingDataForToday = votesHistory !== null;
 
   // 投票期間前
   if (votingStatus.isBefore) {
@@ -79,7 +67,7 @@ export default async function Page({ searchParams }: { searchParams: { testStart
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="flex flex-wrap gap-10">
-        <MCForm userId={userId!} />
+        <MCForm userId={userId!} votesHistory={votesHistory} testDate={testDate} />
         <VoteHistory votesHistory={votesHistory} testDate={testDate} />
       </div>
       <LotteryTicket hasExistingDataForToday={hasExistingDataForToday} />

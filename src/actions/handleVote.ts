@@ -5,7 +5,12 @@ import { updateVote } from '@/actions/updateVote';
 import { getVotes } from '@/data/getVotes';
 import { auth } from '@clerk/nextjs/server';
 
-export async function handleVote(formData: FormData) {
+interface HandleVoteParams {
+  formData: FormData;
+  testDate?: Date;
+}
+
+export async function handleVote({ formData, testDate }: HandleVoteParams) {
   const { userId } = auth();
   if (!userId) {
     throw new Error('ユーザーIDが取得できませんでした');
@@ -48,6 +53,7 @@ export async function handleVote(formData: FormData) {
       booth,
       outstage,
       room,
+      testDate,
     });
   }
 }

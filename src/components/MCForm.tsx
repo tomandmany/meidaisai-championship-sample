@@ -1,65 +1,71 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getVotes } from '@/data/getVotes';
 import ProgramSelect from './ProgramSelect';
 import { handleVote } from '@/actions/handleVote';
 import { toast } from 'sonner'; // Sonnerのtoast関数をインポート
 
 type MCFormProps = {
   userId: string;
+  votesHistory: Vote[];
+  testDate?: Date;
 };
 
 const boothPrograms = ['模擬店1', '模擬店2', '模擬店3'];
 const outstagePrograms = ['屋外ステージ1', '屋外ステージ2', '屋外ステージ3'];
 const roomPrograms = ['教室1', '教室2', '教室3'];
 
-export default function MCForm({ userId }: MCFormProps) {
+export default function MCForm({ userId, votesHistory, testDate }: MCFormProps) {
   const [existingVote, setExistingVote] = useState<Vote | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const vote = await getVotes(userId);
-      if (vote) {
-        setExistingVote(vote);
-        setIsUpdating(true);
-      }
-      setIsLoading(false);
-    };
+    // testDateと一致する投票を見つけてセットする
+    const matchingVote = votesHistory.find((vote) => {
+      const voteDate = new Date(vote.created_at);
+      voteDate.setHours(0, 0, 0, 0); // 日付だけ比較
+      return voteDate.getTime() === testDate?.setHours(0, 0, 0, 0); // testDateと比較
+    });
 
-    fetchData();
-  }, [userId]);
+    if (matchingVote) {
+      setExistingVote(matchingVote);
+      setIsUpdating(true);
+    }
+
+    setIsLoading(false);
+  }, [votesHistory, testDate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget as HTMLFormElement);
 
     try {
-      const result = await handleVote(formData);
+      const result = await handleVote({ formData, testDate });
 
       // Sonnerのトーストで成功メッセージを表示
       toast.success(result, {
         style: {
-          // background: '#4CAF50', // 成功メッセージの背景色
-          // color: '#ffffff', // テキスト色
           color: '#4CAF50',
         },
       });
 
-      // 新しい投票データをフェッチして状態を更新
-      const updatedVote = await getVotes(userId);
-      if (updatedVote) {
-        setExistingVote(updatedVote);
+      // 成功後、votesHistoryに基づいて状態を更新
+      const matchingUpdatedVote = votesHistory.find((vote) => {
+        const voteDate = new Date(vote.created_at);
+        return voteDate.getTime() === testDate?.getTime();
+      });
+
+      if (matchingUpdatedVote) {
+        setExistingVote(matchingUpdatedVote);
         setIsUpdating(true);
       }
     } catch (error) {
       // Sonnerのトーストでエラーメッセージを表示
       toast.error('エラーが発生しました。', {
         style: {
-          background: '#f44336', // エラーメッセージの背景色
-          color: '#ffffff', // テキスト色
+          background: '#f44336',
+          color: '#ffffff',
         },
       });
     }
