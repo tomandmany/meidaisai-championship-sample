@@ -2,7 +2,7 @@
 
 import { insertVote } from '@/actions/insertVote';
 import { updateVote } from '@/actions/updateVote';
-import { getVotes } from '@/data/getVotes';
+import { getVotesHistory } from '@/data/getVotesHistory';
 import { auth } from '@clerk/nextjs/server';
 
 interface HandleVoteParams {
@@ -25,22 +25,25 @@ export async function handleVote({ formData, testDate }: HandleVoteParams) {
   }
 
   // 既存の投票データを取得
-  const existingVote = await getVotes(userId);
+  const existingVote = await getVotesHistory(userId);
 
-  if (existingVote) {
+  console.log('Existing vote:', existingVote);
+
+  if (existingVote.length > 0) {
     // 既存のデータと新しいデータが異なるか確認
     const isChanged =
-      existingVote.booth !== booth ||
-      existingVote.outstage !== outstage ||
-      existingVote.room !== room;
+      existingVote[0].booth !== booth ||
+      existingVote[0].outstage !== outstage ||
+      existingVote[0].room !== room;
 
     if (isChanged) {
       console.log('Updating existing vote...', existingVote);
       return await updateVote({
-        voteId: existingVote.id,
+        voteId: existingVote[0].id,
         booth,
         outstage,
         room,
+        testDate,
       });
     } else {
       console.log('No changes detected in the vote. Skipping update.');

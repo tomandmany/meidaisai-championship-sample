@@ -20,8 +20,6 @@ export async function insertVote({
 }: InsertVoteParams): Promise<string> {
   console.log('Inserting vote:', { line_id, booth, outstage, room, testDate });
 
-  console.log(testDate?.toString() || getJSTDate());
-
   const { error: insertError } = await supabase.from('votes').insert({
     line_id,
     booth,
@@ -37,7 +35,7 @@ export async function insertVote({
     ); // エラーメッセージを含める
   }
 
-  revalidatePath('/');
+  revalidatePath('/votes/champ');
 
   return '投票が完了しました。';
 }
