@@ -15,7 +15,7 @@ export default function LotteryTicket({ userId, ticketUsed }: LotteryTicketProps
   const handleTicketClick = async () => {
     try {
       setIsMoving(true); // アニメーション開始
-      const response = await fetch('/api/ticket', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ticket`, {
         method: 'PUT', // PUT メソッドを使用
         headers: {
           'Content-Type': 'application/json',
