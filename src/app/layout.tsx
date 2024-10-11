@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from "@/components/ui/sonner";
 import { jaJP } from "@/localization/ja-JP";
-import "../../globals.css";
+import "./globals.css";
 import Image from "next/image";
 import CatchPhrase from "@/components/CatchPhrase";
 

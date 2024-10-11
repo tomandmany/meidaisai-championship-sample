@@ -1,8 +1,7 @@
 'use client';
 
-import { useTicket } from '@/actions/useTicket';
-import { ArrowRight, Check } from 'lucide-react';
 import { useState } from 'react';
+import { ArrowRight, Check, LoaderCircle } from 'lucide-react';
 
 type LotteryTicketProps = {
   userId: string;
@@ -16,11 +15,23 @@ export default function LotteryTicket({ userId, ticketUsed }: LotteryTicketProps
   const handleTicketClick = async () => {
     try {
       setIsMoving(true); // アニメーション開始
-      await useTicket(userId);
-      setTimeout(() => {
-        setIsTicketUsed(true); // `true` に固定
-        setIsMoving(false); // アニメーション終了後リセット
-      }, 500); // アニメーションの時間を500msに設定
+      const response = await fetch('/api/ticket', {
+        method: 'PUT', // PUT メソッドを使用
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId }),
+      });
+
+      if (response.ok) {
+        setTimeout(() => {
+          setIsTicketUsed(true); // `true` に固定
+          setIsMoving(false); // アニメーション終了後リセット
+        }, 500); // アニメーションの時間を500msに設定
+      } else {
+        console.error('Failed to update ticket status');
+        setIsMoving(false);
+      }
     } catch (error) {
       console.error('Error updating ticket status:', error);
       setIsMoving(false);
@@ -44,7 +55,16 @@ export default function LotteryTicket({ userId, ticketUsed }: LotteryTicketProps
           className={`flex items-center justify-center w-1/2 h-full bg-blue-400 rounded-lg absolute transition-transform duration-500 ease-in-out text-white
           ${isTicketUsed ? 'translate-x-full bg-gray-400' : 'translate-x-0 bg-blue-400'}`} // 使用済みの場合は右側に移動
         >
-          {isTicketUsed ? <Check /> : <ArrowRight />}
+          {isTicketUsed
+            ?
+            <Check />
+            :
+            (
+              isMoving
+                ? <LoaderCircle className="animate-spin" /> /* 回転アニメーションを追加 */
+                : <ArrowRight />
+            )
+          }
         </div>
 
         {/* 左側のテキスト */}
