@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="430" height="190" viewBox="0 0 430 190">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="長方形_35" data-name="長方形 35" width="285" height="90" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <filter id="前面オブジェクトで型抜き_5" x="149.136" y="80.187" width="317.217" height="164.996" filterUnits="userSpaceOnUse">
+      <feOffset dx="2" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur result="blur"/>
+      <feFlood flood-color="#f2a09d"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path-2">
+      <rect id="長方形_42" data-name="長方形 42" width="175" height="90" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <filter id="前面オブジェクトで型抜き_6" x="-95.93" y="104.716" width="284.393" height="140.467" filterUnits="userSpaceOnUse">
+      <feOffset dx="2" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur result="blur-2"/>
+      <feFlood flood-color="#64bdeb"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path-3">
+      <rect id="長方形_50" data-name="長方形 50" width="140" height="100" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <filter id="前面オブジェクトで型抜き_7" x="284.847" y="-42.347" width="292.305" height="143.347" filterUnits="userSpaceOnUse">
+      <feOffset dx="2" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur result="blur-3"/>
+      <feFlood flood-color="#64bdeb"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="下飾り" transform="translate(0 -742)">
+    <g id="マスクグループ_4" data-name="マスクグループ 4" transform="translate(145 842)" clip-path="url(#clip-path)">
+      <g transform="matrix(1, 0, 0, 1, -145, -100)" filter="url(#前面オブジェクトで型抜き_5)">
+        <path id="前面オブジェクトで型抜き_5-2" data-name="前面オブジェクトで型抜き 5" d="M305.6,60.434H130.72A7.85,7.85,0,0,1,128.695,45H35.268a7.849,7.849,0,0,1,0-15.7H73.687a6.8,6.8,0,1,0,0-13.6H7.849a7.849,7.849,0,0,1,0-15.7h161.2a7.849,7.849,0,0,1,5.336,13.6H234.5a7.85,7.85,0,0,1,3.744,14.749H188.707a6.8,6.8,0,1,0,0,13.6h84.307A6.8,6.8,0,0,0,276.48,29.3h6.67a7.85,7.85,0,0,1,2.025,15.434H305.6a7.849,7.849,0,1,1,0,15.7Z" transform="translate(464.35 136.98) rotate(160)" fill="#ffcecc"/>
+      </g>
+    </g>
+    <g id="マスクグループ_5" data-name="マスクグループ 5" transform="translate(0 842)" clip-path="url(#clip-path-2)">
+      <g transform="matrix(1, 0, 0, 1, 0, -100)" filter="url(#前面オブジェクトで型抜き_6)">
+        <path id="前面オブジェクトで型抜き_6-2" data-name="前面オブジェクトで型抜き 6" d="M205.554,45H6.121a6.121,6.121,0,0,1,0-12.243H14.5a5.289,5.289,0,0,0,1.8.315H90.6a5.305,5.305,0,0,0,0-10.611H50.7a6.123,6.123,0,0,1,2-11.908H112.61A5.85,5.85,0,0,1,116.088,0h162.2a5.85,5.85,0,0,1,0,11.7H187.925a6.122,6.122,0,0,1,.78,9.287H143.786a4.874,4.874,0,0,0,0,9.749h72.251a4.875,4.875,0,0,0,2.073-9.287h30.973a5.85,5.85,0,1,1,0,11.7H207.708A6.122,6.122,0,0,1,205.554,45Z" transform="translate(186.46 147) rotate(160)" fill="#bae8ff"/>
+      </g>
+    </g>
+    <g id="マスクグループ_6" data-name="マスクグループ 6" transform="translate(290 742)" clip-path="url(#clip-path-3)">
+      <g transform="matrix(1, 0, 0, 1, -290, 0)" filter="url(#前面オブジェクトで型抜き_7)">
+        <path id="前面オブジェクトで型抜き_7-2" data-name="前面オブジェクトで型抜き 7" d="M213.973,45H55.541A6.122,6.122,0,0,1,53.6,33.071H99.024a5.248,5.248,0,0,0,3.287-1.141h58.137a4.874,4.874,0,0,0,0-9.749H88.2a4.871,4.871,0,0,0-1.632.28H24.723a5.287,5.287,0,0,0-1.859.335H6.121a6.121,6.121,0,0,1,0-12.243H121.029A5.85,5.85,0,0,1,124.508,0h162.2a5.85,5.85,0,0,1,0,11.7H193.493a4.874,4.874,0,1,0,0,9.749H257.5a5.849,5.849,0,1,1,0,11.7H216.125A6.122,6.122,0,0,1,213.973,45Z" transform="translate(575.15 -0.06) rotate(160)" fill="#bae8ff"/>
+      </g>
+    </g>
+  </g>
+</svg>

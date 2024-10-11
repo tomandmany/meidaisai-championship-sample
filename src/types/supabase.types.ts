@@ -9,35 +9,64 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      users: {
+        Row: {
+          created_at: string
+          id: string
+          ticket_used: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ticket_used?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ticket_used?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
       votes: {
         Row: {
           booth: string
           created_at: string
           id: string
-          line_id: string
           outstage: string
           room: string
-          updated_at: string
+          updated_at: string | null
+          user_id: string
         }
         Insert: {
           booth: string
           created_at?: string
           id?: string
-          line_id: string
           outstage: string
           room: string
-          updated_at?: string
+          updated_at?: string | null
+          user_id: string
         }
         Update: {
           booth?: string
           created_at?: string
           id?: string
-          line_id?: string
           outstage?: string
           room?: string
-          updated_at?: string
+          updated_at?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "votes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
     }
     Views: {

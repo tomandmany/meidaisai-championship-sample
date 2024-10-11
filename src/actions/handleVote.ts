@@ -1,8 +1,10 @@
+// @/app/api/votes/handleVote.ts
 'use server';
 
 import { insertVote } from '@/actions/insertVote';
 import { updateVote } from '@/actions/updateVote';
 import { getVotesHistory } from '@/data/getVotesHistory';
+import getJSTDate from '@/lib/getJSTDate';
 import { auth } from '@clerk/nextjs/server';
 
 interface HandleVoteParams {
@@ -24,22 +26,43 @@ export async function handleVote({ formData, testDate }: HandleVoteParams) {
     throw new Error('全てのフィールドを選択してください');
   }
 
-  // 既存の投票データを取得
-  const existingVote = await getVotesHistory(userId);
+  // 既存の全投票データを取得
+  const existingVotes = await getVotesHistory(userId);
 
-  console.log('Existing vote:', existingVote);
+  // testDateをUTCに変換
+  const todayUTCStr = testDate ? testDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
 
-  if (existingVote.length > 0) {
-    // 既存のデータと新しいデータが異なるか確認
+  console.log('Today UTC string:', todayUTCStr);
+
+  // 当日の投票データがあるか確認 (UTCの日付部分を比較)
+  const todayVote = existingVotes.find(vote => {
+    const createdAtStr = new Date(vote.created_at).toISOString().split('T')[0]; // UTCに変換されたcreated_at
+    console.log('Comparing dates (UTC):', createdAtStr, todayUTCStr); // 日付の比較部分をログ出力
+    return createdAtStr === todayUTCStr;
+  });
+
+  console.log('Existing vote for today:', todayVote);
+
+  if (todayVote) {
+    // 既存のデータと新しいデータを比較
+    console.log('Comparing vote fields:', {
+      existingBooth: todayVote.booth,
+      newBooth: booth,
+      existingOutstage: todayVote.outstage,
+      newOutstage: outstage,
+      existingRoom: todayVote.room,
+      newRoom: room,
+    });
+
     const isChanged =
-      existingVote[0].booth !== booth ||
-      existingVote[0].outstage !== outstage ||
-      existingVote[0].room !== room;
+      todayVote.booth !== booth ||
+      todayVote.outstage !== outstage ||
+      todayVote.room !== room;
 
     if (isChanged) {
-      console.log('Updating existing vote...', existingVote);
+      console.log('Updating existing vote:', todayVote);
       return await updateVote({
-        voteId: existingVote[0].id,
+        voteId: todayVote.id,
         booth,
         outstage,
         room,
@@ -52,7 +75,7 @@ export async function handleVote({ formData, testDate }: HandleVoteParams) {
   } else {
     console.log('Inserting new vote...');
     return await insertVote({
-      line_id: userId,
+      user_id: userId,
       booth,
       outstage,
       room,

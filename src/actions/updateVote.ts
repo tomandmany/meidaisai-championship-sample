@@ -1,3 +1,4 @@
+// @/app/api/votes/updateVote.ts
 'use server';
 import getJSTDate from '@/lib/getJSTDate';
 import { supabase } from '@/lib/supabaseClient';
@@ -8,7 +9,7 @@ interface UpdateVoteParams {
   booth: string;
   outstage: string;
   room: string;
-  testDate?: Date;
+  testDate?: Date; // testDateはDate型
 }
 
 export async function updateVote({
@@ -26,7 +27,7 @@ export async function updateVote({
       booth,
       outstage,
       room,
-      updated_at: testDate?.toISOString() || getJSTDate(), // 日本時間で更新日時を設定
+      updated_at: testDate ? getJSTDate(testDate) : getJSTDate(), // JSTに変換して更新
     })
     .eq('id', voteId);
 

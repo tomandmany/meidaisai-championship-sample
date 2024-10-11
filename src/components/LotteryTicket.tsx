@@ -1,14 +1,62 @@
+'use client';
+
+import { useTicket } from '@/actions/useTicket';
+import { ArrowRight, Check } from 'lucide-react';
+import { useState } from 'react';
+
 type LotteryTicketProps = {
-    hasExistingDataForToday: boolean;
+  userId: string;
+  ticketUsed: boolean;
+};
+
+export default function LotteryTicket({ userId, ticketUsed }: LotteryTicketProps) {
+  const [isTicketUsed, setIsTicketUsed] = useState(ticketUsed);
+  const [isMoving, setIsMoving] = useState(false); // 青い四角が動いているかどうかの状態
+
+  const handleTicketClick = async () => {
+    try {
+      setIsMoving(true); // アニメーション開始
+      await useTicket(userId);
+      setTimeout(() => {
+        setIsTicketUsed(true); // `true` に固定
+        setIsMoving(false); // アニメーション終了後リセット
+      }, 500); // アニメーションの時間を500msに設定
+    } catch (error) {
+      console.error('Error updating ticket status:', error);
+      setIsMoving(false);
+    }
   };
-  
-  export default function LotteryTicket({ hasExistingDataForToday }: LotteryTicketProps) {
-    if (!hasExistingDataForToday) return null;
-  
-    return (
-      <div className="mt-4 text-center text-xl font-semibold text-green-600">
-        抽選券
-      </div>
-    );
-  }
-  
+
+  return (
+    <div className={`p-[2px] border border-gray-400 rounded-lg w-[300px] bg-white
+      ${!isTicketUsed && 'hover:bg-blue-100'}
+    `}>
+      {/* ボタン */}
+      <button
+        onClick={handleTicketClick}
+        disabled={isTicketUsed || isMoving} // 使用済みまたは移動中ならボタンを無効にする
+        className={`flex items-center w-full h-14 rounded-lg relative overflow-hidden
+          ${isTicketUsed ? 'cursor-not-allowed text-gray-400' : 'text-gray-600 hover:bg-blue-100'}
+          transition duration-200 ease-in-out`}
+      >
+        {/* 左側の青い四角 */}
+        <div
+          className={`flex items-center justify-center w-1/2 h-full bg-blue-400 rounded-lg absolute transition-transform duration-500 ease-in-out text-white
+          ${isTicketUsed ? 'translate-x-full bg-gray-400' : 'translate-x-0 bg-blue-400'}`} // 使用済みの場合は右側に移動
+        >
+          {isTicketUsed ? <Check /> : <ArrowRight />}
+        </div>
+
+        {/* 左側のテキスト */}
+        <span className={`w-1/2 text-center font-semibold text-sm ${isTicketUsed ? 'text-gray-400' : 'text-gray-600'}`}>
+          使用済み
+        </span>
+
+        {/* 右側のテキスト */}
+        <span className={`w-1/2 text-center font-semibold text-sm ${isTicketUsed ? 'text-gray-400' : 'text-gray-600'}`}>
+          チケットを使用する
+        </span>
+      </button>
+    </div>
+  );
+}

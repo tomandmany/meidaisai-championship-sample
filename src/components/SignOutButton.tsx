@@ -2,14 +2,14 @@
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
-import { isVotingPeriod } from '@/lib/votingPeriod';
+import { getVotingStatus } from '@/lib/getVotingStatus';
 
 export default function SignOutButton() {
   const { signOut } = useAuth();
   const [redirectUrl, setRedirectUrl] = useState('/'); // デフォルトは期間外のリダイレクト先
 
   useEffect(() => {
-    const { isDuring } = isVotingPeriod();
+    const { isDuring } = getVotingStatus();
 
     // 投票期間中かどうかを判定し、リダイレクト先を設定
     if (isDuring) {
@@ -39,7 +39,7 @@ export default function SignOutButton() {
       className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
       onClick={handleSignOut}  // ログアウト後にトーストを表示
     >
-      ログアウト
+      ログアウトする
     </button>
   );
 }
