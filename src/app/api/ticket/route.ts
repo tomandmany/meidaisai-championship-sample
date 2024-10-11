@@ -1,11 +1,11 @@
 // @/app/api/ticket/route.ts
 import { NextResponse } from 'next/server';
-import { useTicket } from '@/actions/useTicket';
+import { updateTicketStatus } from '@/actions/updateTicketStatus';
 
 export async function PUT(req: Request) {
   try {
     const { userId } = await req.json();
-    await useTicket(userId); // useTicketでticket_usedをtrueに更新
+    await updateTicketStatus(userId); // updateTicketStatusでticket_usedをtrueに更新
     return NextResponse.json({ message: 'チケットの状態が更新されました' });
   } catch (error) {
     console.error('Error updating ticket:', error);
