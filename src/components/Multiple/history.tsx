@@ -75,14 +75,14 @@ export default function History({ user_id, days, departments, projects, votesHis
                 const isScrollable = filteredVotes.length >= 3;
 
                 return (
-                  <div key={`${day}-${dept}`} className="ml-4 mb-6">
+                  <div key={`${day}-${dept}`} className="ml-2 mb-6">
                     <h4 className="font-medium text-lg">{dept}:</h4>
                     {filteredVotes.length === 0 ? (
                       <p className="text-muted-foreground ml-6 mt-2">投票なし</p>
                     ) : (
                       <ScrollArea
-                        className={`list-disc list-inside rounded-md mt-2 ml-6 pr-4 py-2 z-mc-history-scroll-area ${
-                          isScrollable ? 'h-[130px] border' : ''
+                        className={`list-disc list-inside rounded-md ml-4 px-2 z-mc-history-scroll-area ${
+                          isScrollable ? 'h-[130px] border mt-2 pt-2' : ''
                         }`}
                       >
                         {filteredVotes.map((vote) => {
