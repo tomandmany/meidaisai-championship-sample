@@ -1,5 +1,5 @@
 import { MultipleMCForm } from "@/components/Multiple/multiple-mc-form";
-import { getUserData } from "@/data/getUserData";
+// import { getUserData } from "@/data/getUserData";
 
 export default async function Page() {
   // const { userId, ticketUsed } = await getUserData();
