@@ -1,89 +1,75 @@
-// @/app/api/votes/handleVote.ts
-'use server';
+// // @/app/api/votes/handleVote.ts
+// 'use server';
 
-import { insertVote } from '@/actions/insertVote';
-import { updateVote } from '@/actions/updateVote';
-import { getVotesHistory } from '@/data/getVotesHistory';
-import getJSTDate from '@/lib/getJSTDate'; // JSTを取得する関数
-import { auth } from '@clerk/nextjs/server';
+// import { insertVote } from '@/actions/insertVote';
+// import { updateVote } from '@/actions/updateVote';
+// import { getVotesHistory } from '@/data/getVotesHistory';
+// import getJSTDate from '@/lib/getJSTDate';
+// import { supabase } from '@/lib/supabaseClient';
+// import { auth } from '@clerk/nextjs/server';
 
-interface HandleVoteParams {
-  formData: FormData;
-  testDate?: Date;
-}
+// interface HandleVoteParams {
+//   selectedProjects: { id: string; name: string }[];
+//   testDate?: Date;
+// }
 
-export async function handleVote({ formData, testDate }: HandleVoteParams) {
-  const { userId } = auth();
-  if (!userId) {
-    throw new Error('ユーザーIDが取得できませんでした');
-  }
+// export async function handleVote({ selectedProjects, testDate }: HandleVoteParams) {
+//   const { userId } = auth();
+//   if (!userId) {
+//     throw new Error('ユーザーIDが取得できませんでした');
+//   }
 
-  const booth = formData.get('booth') as string;
-  const outstage = formData.get('outstage') as string;
-  const room = formData.get('room') as string;
+//   if (!selectedProjects.length) {
+//     throw new Error('プロジェクトが選択されていません');
+//   }
 
-  if (!booth || !outstage || !room) {
-    throw new Error('全てのフィールドを選択してください');
-  }
+//   // ユーザーが存在するか確認
+//   const { data: userExists, error: userCheckError } = await supabase
+//     .from('users')
+//     .select('id')
+//     .eq('id', userId)
+//     .single();
 
-  // 既存の全投票データを取得
-  const existingVotes = await getVotesHistory(userId);
+//   if (userCheckError) {
+//     console.error('ユーザー確認エラー:', userCheckError.message);
+//     throw new Error('ユーザーの確認中にエラーが発生しました');
+//   }
 
-  // testDateをJSTに変換、もしくは現在の日付をJSTで取得
-  const todayJST = testDate ? getJSTDate(testDate) : getJSTDate(new Date());
+//   // ユーザーが存在しない場合、新しいユーザーを追加
+//   if (!userExists) {
+//     const { error: insertUserError } = await supabase.from('users').insert({
+//       user_id: userId,
+//     });
 
-  // JSTの日付部分を文字列として取得
-  const todayJSTStr = todayJST.toString().split('T')[0];
+//     if (insertUserError) {
+//       console.error('ユーザー追加エラー:', insertUserError.message);
+//       throw new Error('新しいユーザーの追加中にエラーが発生しました');
+//     }
 
-  console.log('Today JST string:', todayJSTStr);
+//     console.log('新しいユーザーが追加されました:', userId);
+//   }
 
-  // 当日の投票データがあるか確認 (JSTの日付部分を比較)
-  const todayVote = existingVotes.find(vote => {
-    const createdAtJST = getJSTDate(new Date(vote.created_at)); // created_atをJSTに変換
-    const createdAtStr = createdAtJST.toString().split('T')[0]; // JSTの日付部分を取得
-    console.log('Comparing dates (JST):', createdAtStr, todayJSTStr); // 日付の比較部分をログ出力
-    return createdAtStr === todayJSTStr;
-  });
+//   const existingVotes = await getVotesHistory(userId);
+//   const todayJST = testDate ? getJSTDate(testDate) : getJSTDate(new Date());
 
-  console.log('Existing vote for today:', todayVote);
+//   const todayVotes = existingVotes.filter(vote => {
+//     const createdAtJST = getJSTDate(new Date(vote.created_at));
+//     return createdAtJST === todayJST;
+//   });
 
-  if (todayVote) {
-    // 既存のデータと新しいデータを比較
-    console.log('Comparing vote fields:', {
-      existingBooth: todayVote.booth,
-      newBooth: booth,
-      existingOutstage: todayVote.outstage,
-      newOutstage: outstage,
-      existingRoom: todayVote.room,
-      newRoom: room,
-    });
-
-    const isChanged =
-      todayVote.booth !== booth ||
-      todayVote.outstage !== outstage ||
-      todayVote.room !== room;
-
-    if (isChanged) {
-      console.log('Updating existing vote:', todayVote);
-      return await updateVote({
-        voteId: todayVote.id,
-        booth,
-        outstage,
-        room,
-        testDate,
-      });
-    } else {
-      console.log('No changes detected in the vote. Skipping update.');
-      return '変更が検出されませんでした';
-    }
-  } else {
-    console.log('Inserting new vote...');
-    return await insertVote({
-      user_id: userId,
-      booth,
-      outstage,
-      room,
-      testDate,
-    });
-  }
-}
+//   if (todayVotes.length > 0) {
+//     // 既存の投票がある場合は更新
+//     return await updateVote({
+//       voteId: todayVotes[0].id, // 最初の投票IDを使用
+//       projects: selectedProjects,
+//       testDate,
+//     });
+//   } else {
+//     // 新しい投票を挿入
+//     return await insertVote({
+//       user_id: userId,
+//       projects: selectedProjects,
+//       testDate,
+//     });
+//   }
+// }

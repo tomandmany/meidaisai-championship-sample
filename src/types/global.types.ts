@@ -1,8 +1,8 @@
 import { Tables } from './supabase.types';
 
 declare global {
-  // type Vote = Tables<'votes'>;
-  // type User = Tables<'users'>;
+  type Vote = Tables<'votes'>;
+  type User = Tables<'users'>;
 
   type Project = {
     id: string;
@@ -14,7 +14,7 @@ declare global {
     genre: string;
   }
   
-  type Vote = {
-    projectId: string;
-  }
+  // type Vote = {
+  //   projectId: string;
+  // }
 }

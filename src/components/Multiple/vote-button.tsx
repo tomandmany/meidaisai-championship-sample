@@ -1,17 +1,44 @@
+import { insertVote } from "@/actions/insertVote";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface VoteButtonProps {
-    selectedProjects: string[];
-    handleVote: () => void;
+    selectedProjects: { id: string; name: string }[];
+    user_id: string;
+    testDate?: Date;
 }
 
-export default function VoteButton({ selectedProjects, handleVote }: VoteButtonProps) {
+export default function VoteButton({ selectedProjects, user_id, testDate }: VoteButtonProps) {
+    const handleInsertVote = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const result = await insertVote({ user_id, projects: selectedProjects, testDate });
+
+            toast.success(result, {
+                style: {
+                    background: 'white',
+                    color: '#4CAF50',
+                    border: 'transparent',
+                },
+            });
+        } catch (error) {
+            toast.error('エラーが発生しました。', {
+                style: {
+                    background: '#f44336',
+                    color: '#ffffff',
+                    border: 'transparent',
+                },
+            });
+        }
+    };
+
     return (
         <div className='flex gap-2 items-center'>
             <Button
                 type='button'
+                onClick={handleInsertVote}
                 className="w-full mt-3 sm:mt-2 bg-[#E07594] hover:bg-[#c56681]"
-                onClick={handleVote}
                 disabled={selectedProjects.length === 0}
             >
                 投票する ({selectedProjects.length})

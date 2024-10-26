@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "supabase:generate-types": "npx supabase gen types typescript --project-id 'ztateebuetyibmjskgkh' --schema public > src/types/supabase.types.ts"
+    "supabase:generate-types": "npx supabase gen types typescript --project-id 'yeiduvjdnvqhqwkyhgum' --schema public > src/types/supabase.types.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^2.4.3",
@@ -28,6 +28,7 @@
     "@use-gesture/react": "^10.3.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "encoding": "^0.1.13",
     "lucide-react": "^0.446.0",
     "next": "14.2.3",
     "next-themes": "^0.3.0",
@@ -35,6 +36,7 @@
     "react-dom": "^18",
     "sonner": "^1.5.0",
     "supabase": "^1.200.3",
+    "svix": "^1.37.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
   },

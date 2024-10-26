@@ -39,7 +39,7 @@ export default function TicketContext({ userId, ticketUsed }: TicketContextProps
     });
 
     const touchSensor = useSensor(TouchSensor, {
-        activationConstraint: { delay: 80, tolerance: 0 }, // 100ms の遅延後にアクティブ化
+        activationConstraint: { delay: 80, tolerance: 0 }, // 80ms の遅延後にアクティブ化
     });
 
     const sensors = useSensors(

@@ -16,7 +16,7 @@ export default function SignOutButton() {
     if (isDuring) {
       setRedirectUrl('/sign-in');
     } else {
-      setRedirectUrl('/votes/champ');
+      setRedirectUrl('/sample');
     }
   }, []);
 

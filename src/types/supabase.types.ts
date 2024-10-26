@@ -32,30 +32,24 @@ export type Database = {
       }
       votes: {
         Row: {
-          booth: string
           created_at: string
           id: string
-          outstage: string
-          room: string
-          updated_at: string | null
+          project_id: string
+          project_name: string
           user_id: string
         }
         Insert: {
-          booth: string
           created_at?: string
           id?: string
-          outstage: string
-          room: string
-          updated_at?: string | null
+          project_id: string
+          project_name: string
           user_id: string
         }
         Update: {
-          booth?: string
           created_at?: string
           id?: string
-          outstage?: string
-          room?: string
-          updated_at?: string | null
+          project_id?: string
+          project_name?: string
           user_id?: string
         }
         Relationships: [
@@ -164,4 +158,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
