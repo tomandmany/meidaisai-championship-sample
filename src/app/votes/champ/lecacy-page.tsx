@@ -125,3 +125,9 @@
 //     </main>
 //   );
 // }
+
+export default function LecacyPage() {
+  return (
+    <div></div>
+  )
+}
