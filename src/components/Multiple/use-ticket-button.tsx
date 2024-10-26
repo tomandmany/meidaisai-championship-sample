@@ -3,47 +3,53 @@
 import { useState } from 'react';
 import { ArrowRight, Check, LoaderCircle } from 'lucide-react';
 
-type LotteryTicketProps = {
+type TicketProps = {
   userId: string;
   ticketUsed: boolean;
 };
 
-export default function LotteryTicket({ userId, ticketUsed }: LotteryTicketProps) {
+export default function UseTicketButton({ userId, ticketUsed }: TicketProps) {
   const [isTicketUsed, setIsTicketUsed] = useState(ticketUsed);
   const [isMoving, setIsMoving] = useState(false); // 青い四角が動いているかどうかの状態
 
   const handleTicketClick = async () => {
-    try {
-      setIsMoving(true); // アニメーション開始
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ticket`, {
-        method: 'PUT', // PUT メソッドを使用
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId }),
-      });
+    // try {
+    //   setIsMoving(true); // アニメーション開始
+    //   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ticket`, {
+    //     method: 'PUT', // PUT メソッドを使用
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ userId }),
+    //   });
 
-      if (response.ok) {
-        setTimeout(() => {
-          setIsTicketUsed(true); // `true` に固定
-          setIsMoving(false); // アニメーション終了後リセット
-        }, 500); // アニメーションの時間を500msに設定
-      } else {
-        console.error('Failed to update ticket status');
-        setIsMoving(false);
-      }
-    } catch (error) {
-      console.error('Error updating ticket status:', error);
-      setIsMoving(false);
-    }
+    //   if (response.ok) {
+    //     setTimeout(() => {
+    //       setIsTicketUsed(true); // `true` に固定
+    //       setIsMoving(false); // アニメーション終了後リセット
+    //     }, 500); // アニメーションの時間を500msに設定
+    //   } else {
+    //     console.error('Failed to update ticket status');
+    //     setIsMoving(false);
+    //   }
+    // } catch (error) {
+    //   console.error('Error updating ticket status:', error);
+    //   setIsMoving(false);
+    // }
+    setIsMoving(true); // アニメーション開始
+    setTimeout(() => {
+      setIsTicketUsed(true); // `true` に固定
+      setIsMoving(false); // アニメーション終了後リセット
+    }, 500);
   };
 
   return (
-    <div className={`p-[2px] border border-gray-400 rounded-lg w-[300px] bg-white
+    <div className={`p-[2px] border border-gray-400 rounded-lg w-[330px] bg-white z-mc-ticket 
       ${!isTicketUsed && 'hover:bg-blue-100'}
     `}>
       {/* ボタン */}
       <button
+        type='button'
         onClick={handleTicketClick}
         disabled={isTicketUsed || isMoving} // 使用済みまたは移動中ならボタンを無効にする
         className={`flex items-center w-full h-14 rounded-lg relative overflow-hidden

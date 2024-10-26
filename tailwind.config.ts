@@ -9,11 +9,22 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      zIndex: {
+        'mc-bg': '-1',
+        'mc-toast': '1',
+        'mc-catchphrase': '2',
+        'mc-ticket': '3',
+        'mc-history-modal': '4',
+        'mc-history-scroll-area': '5',
+        'mc-history-title': '6',
+        'mc-history-button': '7',
+        'mc-ticket-modal': '8',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
-				'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-		'votes-champ': 'url(/votes/bg.svg)',
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'votes-champ': 'url(/votes/bg.svg)',
       },
       borderRadius: {
         lg: 'var(--radius)',

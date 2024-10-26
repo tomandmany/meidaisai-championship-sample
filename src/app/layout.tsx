@@ -8,6 +8,7 @@ import { jaJP } from "@/localization/ja-JP";
 import "./globals.css";
 import Image from "next/image";
 import CatchPhrase from "@/components/CatchPhrase";
+import SignOutButton from "@/components/Multiple/SignOutButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,14 +26,15 @@ export default function RootLayout({
     <ClerkProvider localization={jaJP}>
       <html lang="ja">
         <body className={`bg-votes-champ relative ${inter.className}`}>
-          <Toaster position="top-center" />
+          <header className="h-[50px] bg-[#e07594]" />
+          <Toaster position="top-center" className="z-mc-toast" />
           <CatchPhrase />
           <Image
             src={'/votes/top.svg'}
             alt="上の飾り"
             width={1920}
             height={1080}
-            className="absolute top-0 -z-10"
+            className="absolute top-0 z-mc-bg"
           />
           {children}
           <Image
@@ -40,8 +42,10 @@ export default function RootLayout({
             alt="下の飾り"
             width={1920}
             height={1080}
-            className="absolute bottom-0 -z-10"
+            className="absolute bottom-0 z-mc-bg"
           />
+          {/* <footer className="h-[987px] bg-[#e07594] mt-24" /> */}
+          <SignOutButton />
         </body>
       </html>
     </ClerkProvider>

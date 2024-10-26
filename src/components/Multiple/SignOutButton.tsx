@@ -3,6 +3,7 @@ import { useAuth } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { useEffect, useState } from 'react';
 import { getVotingStatus } from '@/lib/getVotingStatus';
+import { LogOut } from 'lucide-react';
 
 export default function SignOutButton() {
   const { signOut } = useAuth();
@@ -36,10 +37,13 @@ export default function SignOutButton() {
 
   return (
     <button
-      className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+      className="p-6 text-white rounded-full bg-red-200 hover:bg-red-400 fixed top-6 right-6 flex flex-col justify-center items-center gap-2"
+      // className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 fixed top-4 right-4"
       onClick={handleSignOut}  // ログアウト後にトーストを表示
     >
-      ログアウトする
+      {/* ログアウトする */}
+      <LogOut size={36} />
+      <span className='text-sm'>ログアウト</span>
     </button>
   );
 }

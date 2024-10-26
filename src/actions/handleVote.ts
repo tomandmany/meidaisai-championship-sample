@@ -4,7 +4,7 @@
 import { insertVote } from '@/actions/insertVote';
 import { updateVote } from '@/actions/updateVote';
 import { getVotesHistory } from '@/data/getVotesHistory';
-import getJSTDate from '@/lib/getJSTDate';
+import getJSTDate from '@/lib/getJSTDate'; // JSTを取得する関数
 import { auth } from '@clerk/nextjs/server';
 
 interface HandleVoteParams {
@@ -29,16 +29,20 @@ export async function handleVote({ formData, testDate }: HandleVoteParams) {
   // 既存の全投票データを取得
   const existingVotes = await getVotesHistory(userId);
 
-  // testDateをUTCに変換
-  const todayUTCStr = testDate ? testDate.toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+  // testDateをJSTに変換、もしくは現在の日付をJSTで取得
+  const todayJST = testDate ? getJSTDate(testDate) : getJSTDate(new Date());
 
-  console.log('Today UTC string:', todayUTCStr);
+  // JSTの日付部分を文字列として取得
+  const todayJSTStr = todayJST.toString().split('T')[0];
 
-  // 当日の投票データがあるか確認 (UTCの日付部分を比較)
+  console.log('Today JST string:', todayJSTStr);
+
+  // 当日の投票データがあるか確認 (JSTの日付部分を比較)
   const todayVote = existingVotes.find(vote => {
-    const createdAtStr = new Date(vote.created_at).toISOString().split('T')[0]; // UTCに変換されたcreated_at
-    console.log('Comparing dates (UTC):', createdAtStr, todayUTCStr); // 日付の比較部分をログ出力
-    return createdAtStr === todayUTCStr;
+    const createdAtJST = getJSTDate(new Date(vote.created_at)); // created_atをJSTに変換
+    const createdAtStr = createdAtJST.toString().split('T')[0]; // JSTの日付部分を取得
+    console.log('Comparing dates (JST):', createdAtStr, todayJSTStr); // 日付の比較部分をログ出力
+    return createdAtStr === todayJSTStr;
   });
 
   console.log('Existing vote for today:', todayVote);

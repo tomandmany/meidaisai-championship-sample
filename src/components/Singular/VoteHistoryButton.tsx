@@ -11,7 +11,7 @@ export default function VoteHistoryButton({ isOpen, handleOpen }: VoteHistoryBut
   return (
     <button
       type="button"
-      className="fixed left-4 bottom-4"
+      className="fixed right-4 bottom-4 z-mc-history-button"
       onClick={handleOpen}
     >
       <Image
