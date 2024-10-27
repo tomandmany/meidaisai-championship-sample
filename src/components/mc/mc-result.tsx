@@ -21,6 +21,14 @@ function filterVotesByDepartment(votes: { program_name: string; department: stri
 }
 
 export default function McResult({ allVotes }: MCResultProps) {
+  if (allVotes.length === 0) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black">
+        <h2 className="text-2xl font-bold text-red-500">投票データが見つかりません</h2>
+      </div>
+    );
+  }
+  
   const filteredVotesByDepartment = filterVotesByDepartment(allVotes);
 
   return (
