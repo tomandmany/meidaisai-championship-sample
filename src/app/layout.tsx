@@ -47,7 +47,7 @@ export default function RootLayout({
             className="absolute bottom-0 z-mc-bg"
           />
           {/* <footer className="h-[987px] bg-[#e07594] mt-24" /> */}
-          <SignOutButton />
+          {/* <SignOutButton /> */}
         </body>
       </html>
     </ClerkProvider>
