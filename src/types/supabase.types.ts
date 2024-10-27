@@ -33,6 +33,7 @@ export type Database = {
       votes: {
         Row: {
           created_at: string
+          department: string
           id: string
           program_id: string
           program_name: string
@@ -40,6 +41,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          department: string
           id?: string
           program_id: string
           program_name: string
@@ -47,6 +49,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          department?: string
           id?: string
           program_id?: string
           program_name?: string

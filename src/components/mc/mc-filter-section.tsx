@@ -1,7 +1,7 @@
 import { Grid2x2, MapPin, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-type FilterSectionProps = {
+type MCFilterSectionProps = {
     label: string
     items: string[]
     selectedItems: Set<string>
@@ -9,7 +9,7 @@ type FilterSectionProps = {
     onReset: () => void
 }
 
-export default function FilterSection({ label, items, selectedItems, onChange, onReset }: FilterSectionProps) {
+export default function MCFilterSection({ label, items, selectedItems, onChange, onReset }: MCFilterSectionProps) {
     let labelIcon;
 
     switch (label) {

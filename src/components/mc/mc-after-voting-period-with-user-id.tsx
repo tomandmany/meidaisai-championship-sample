@@ -3,22 +3,23 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import MCToggleHistoryButton from "@/components/mc/mc-toggle-history-button";
 import MCHistory from "@/components/mc/mc-history";
+import McResult from "@/components/mc/mc-result";
 import MCLabel from "@/components/mc/mc-label";
-import MCToggleHistoryButton from "./mc-toggle-history-button";
-import { ArrowLeft, ArrowRight, Crown, History } from "lucide-react";
-// import ResultModal from "./mc-result-modal"; // 結果モーダルを追加
+import { ArrowRight, Crown, History } from "lucide-react";
 
 interface MCAfterVotingPeriodWithUserIDProps {
     user_id: string;
     days: string[];
-    types: string[];
+    departments: string[];
     programs: Program[];
     votesHistory: Vote[];
+    allVotes: Vote[];
 }
 
 export default function MCAfterVotingPeriodWithUserID({
-    votesHistory, programs, user_id, types, days
+    votesHistory, programs, user_id, departments, days, allVotes,
 }: MCAfterVotingPeriodWithUserIDProps) {
     const [showHistory, setShowHistory] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -26,9 +27,9 @@ export default function MCAfterVotingPeriodWithUserID({
     return (
         <>
             {showHistory && (
-                <MCHistory days={days} user_id={user_id} types={types} programs={programs} votesHistory={votesHistory} />
+                <MCHistory days={days} user_id={user_id} departments={departments} programs={programs} votesHistory={votesHistory} />
             )}
-            {showResult && <div>結果モーダル</div>}
+            {showResult && <McResult allVotes={allVotes} />}
 
             {!showHistory && !showResult && (
                 <Card className="flex justify-center items-center w-full h-full sm:max-w-md sm:h-fit sm:p-10 rounded-none sm:rounded-xl border-none sm:border">

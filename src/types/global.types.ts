@@ -6,7 +6,7 @@ declare global {
 
   type Program = {
     id: string;
-    type: string;
+    department: string;
     group: string;
     title: string;
     catch: string;

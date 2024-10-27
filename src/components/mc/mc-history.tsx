@@ -8,11 +8,12 @@ import { X } from "lucide-react";
 import { ScrollArea } from "../ui/scroll-area";
 import { deleteVote } from "@/actions/deleteVote";
 import { toast } from "sonner";
+import MCLabel from "./mc-label";
 
 interface MCHistoryProps {
   user_id: string;
   days: string[];
-  types: string[];
+  departments: string[];
   programs: Program[];
   votesHistory: Vote[];
 }
@@ -26,7 +27,7 @@ const formatCreatedAt = (createdAt: string): string => {
   return `${year}-${month}-${day}`;
 };
 
-export default function MCHistory({ user_id, days, types, programs, votesHistory }: MCHistoryProps) {
+export default function MCHistory({ user_id, days, departments, programs, votesHistory }: MCHistoryProps) {
   const handleDeleteVote = async (voteId: string) => {
     try {
       if (!user_id) throw new Error("ユーザーIDが取得できませんでした。");
@@ -53,41 +54,42 @@ export default function MCHistory({ user_id, days, types, programs, votesHistory
   };
 
   return (
-    <div className="fixed inset-0 border-none z-mc-history-modal overflow-auto rounded-none bg-[#F3F4F6]">
-      <div className="font-bold text-2xl text-white p-6 sm:text-center bg-[#E07494] sticky left-0 top-0 z-mc-history-title">
+    <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-[#F3F4F6]">
+      <div className="font-bold text-2xl text-white p-6 sm:text-center bg-[#E07494] sticky left-0 top-0 z-mc-history-and-result-title">
         投票履歴
       </div>
-      <div className="px-6 pt-7 pb-10 sm:pb-7 sm:h-[calc(100svh-80px)] flex flex-col sm:flex-row flex-wrap sm:items-center gap-x-10 gap-y-5">
+      <div className="p-0 sm:px-6 sm:pt-7 sm:pb-10 sm:min-h-[calc(100svh-80px)] flex flex-col sm:flex-row flex-wrap gap-x-10 gap-y-5">
         {days.map((day) => (
-          <Card key={day} className="flex-grow min-h-full min-w-80">
+          <Card key={day} className="flex-grow min-w-fit min-h-full rounded-none sm:rounded-xl">
             <CardHeader>
               <CardTitle className="text-xl font-semibold">{day}</CardTitle>
             </CardHeader>
             <CardContent>
-              {types.map((type) => {
+              {departments.map((department) => {
                 // 各部門ごとに投票をフィルタリング
                 const filteredVotes = votesHistory.filter(
                   (vote) =>
                     formatCreatedAt(vote.created_at) === day &&
-                    programs.some((p) => p.id === vote.program_id && p.type === type)
+                    programs.some((p) => p.id === vote.program_id && p.department === department)
                 );
 
-                const isScrollable = filteredVotes.length >= 3;
+                // const isScrollable = filteredVotes.length >= 3;
 
                 return (
-                  <div key={`${day}-${type}`} className="ml-2 mb-6">
-                    <h4 className="font-medium text-lg">{type}:</h4>
+                  <div key={`${day}-${department}`} className="ml-2 mb-6">
+                    {/* <h4 className="font-bold text-lg">{department}</h4> */}
+                    <MCLabel>{department}</MCLabel>
                     {filteredVotes.length === 0 ? (
-                      <p className="text-muted-foreground ml-6 mt-2">投票なし</p>
+                      <p className="ml-6 mt-2">投票がありません。</p>
                     ) : (
                       <ScrollArea
-                        className={`list-disc list-inside rounded-md ml-4 px-2 pt-1 z-mc-history-scroll-area ${
-                          isScrollable ? 'h-[130px] border mt-2' : ''
-                        }`}
+                        className='list-disc list-inside rounded-md ml-4 p-2 z-mc-history-and-result-area h-fit'
+                      // className={`list-disc list-inside rounded-md ml-4 px-2 pt-1 z-mc-history-and-result-area ${isScrollable ? 'h-[130px] border mt-2' : ''
+                      //   }`}
                       >
                         {filteredVotes.map((vote) => {
                           const program = programs.find(
-                            (p) => p.id === vote.program_id && p.type === type
+                            (p) => p.id === vote.program_id && p.department === department
                           );
 
                           return program ? (

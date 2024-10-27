@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 
 interface InsertVoteParams {
   user_id: string;
-  programs: { id: string; title: string }[];
+  programs: { id: string; title: string, department: string }[];
   testDate?: Date;
 }
 
@@ -47,6 +47,7 @@ export async function insertVote({
   const votesData = programs.map(program => ({
     user_id,
     created_at: testDate ? getJSTDate(testDate) : getJSTDate(),
+    department: program.department,
     program_id: program.id,
     program_name: program.title,
   }));

@@ -2,20 +2,22 @@
 
 import { useState } from 'react';
 
-import MultipleMcFormFilter from '@/components/mc/mc-form-filter';
+import McFormFilter from '@/components/mc/mc-form-filter';
 import ProgramsScrollArea from '@/components/mc/mc-programs-scroll-area';
-import OpenHistoryButton from '@/components/mc/mc-toggle-history-button';
+import MCToggleHistoryButton from '@/components/mc/mc-toggle-history-button';
 import VoteButton from '@/components/mc/mc-vote-button';
 import SearchBar from '@/components/mc/mc-search-bar';
 import History from '@/components/mc/mc-history';
 
 import { Card, CardContent } from '@/components/ui/card';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+import Image from 'next/image';
 
-interface MultipleMCFormProps {
+interface MCFormProps {
   user_id: string;
   votesHistory: Vote[];
   testDate?: Date;
-  types: string[];
+  departments: string[];
   days: string[];
   // places: string[];
   // genres: string[];
@@ -23,45 +25,46 @@ interface MultipleMCFormProps {
   filteredPrograms: Program[];
 }
 
-export default function MultipleMCForm({
+export default function MCForm({
   user_id,
   votesHistory,
   testDate,
-  types,
+  departments,
   days,
   // places,
   // genres,
   allPrograms,
   filteredPrograms: programs,
-}: MultipleMCFormProps) {
+}: MCFormProps) {
   const [showHistory, setShowHistory] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPrograms, setSelectedPrograms] = useState<{ id: string; title: string, department: string }[]>([]);
   const [filters, setFilters] = useState({
-    types: new Set<string>(),
+    departments: new Set<string>(),
     places: new Set<string>(),
     genres: new Set<string>(),
   });
-  const [selectedPrograms, setSelectedPrograms] = useState<{ id: string; title: string }[]>([]);
 
-  const filteredPrograms = programs.filter(
-    program =>
-      (searchTerm === '' || program.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (filters.types.size === 0 || filters.types.has(program.type)) &&
-      (filters.places.size === 0 || filters.places.has(program.place)) &&
-      (filters.genres.size === 0 || filters.genres.has(program.genre))
-  );
-
-  const updateFilter = (type: 'types' | 'places' | 'genres', value: string) => {
-    setFilters(prev => {
+  const updateFilter = (type: keyof typeof filters, value: string) => {
+    setFilters((prev) => {
       const newSet = new Set(prev[type]);
       newSet.has(value) ? newSet.delete(value) : newSet.add(value);
       return { ...prev, [type]: newSet };
     });
   };
 
-  const resetFilter = (type: 'types' | 'places' | 'genres') => {
-    setFilters(prev => ({ ...prev, [type]: new Set<string>() }));
+  const resetFilter = (type: keyof typeof filters) => {
+    setFilters((prev) => ({ ...prev, [type]: new Set<string>() }));
   };
+
+  const filteredPrograms = programs.filter(
+    program =>
+      (searchTerm === '' || program.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (filters.departments.size === 0 || filters.departments.has(program.department)) &&
+      (filters.places.size === 0 || filters.places.has(program.place)) &&
+      (filters.genres.size === 0 || filters.genres.has(program.genre))
+  );
+
 
   return (
     <form className="container mx-auto h-full max-w-4xl relative sm:p-4">
@@ -69,26 +72,31 @@ export default function MultipleMCForm({
         <Card className="-mb-24 sm:mb-0 sm:max-w-xl mx-auto border-none rounded-none sm:rounded-3xl shadow-none sm:shadow-lg h-[calc(100svh-50px)] sm:h-[calc(100svh-(50px+2rem))]">
           <CardContent className="px-8 py-4 sm:py-10 flex flex-col min-h-full max-h-full">
             <div className="flex gap-2 mb-2">
-              <MultipleMcFormFilter
-                types={types}
-                // places={places}
-                // genres={genres}
+              <McFormFilter
+                departments={departments}
                 filters={filters}
                 updateFilter={updateFilter}
                 resetFilter={resetFilter}
               />
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             </div>
-            <ProgramsScrollArea
-              selectedPrograms={selectedPrograms}
-              setSelectedPrograms={setSelectedPrograms}
-              filteredPrograms={filteredPrograms}
-            />
+            {filteredPrograms.length > 0 ? (
+              <ProgramsScrollArea
+                selectedPrograms={selectedPrograms}
+                setSelectedPrograms={setSelectedPrograms}
+                filteredPrograms={filteredPrograms}
+              />
+            ) : (
+              <ScrollArea className="flex-grow rounded-md border p-2 sm:pb-2 h-[calc(618px-(36px*3+8px*2))] sm:h-[618px] relative">
+                <Image src="/votes/logo.svg" alt="ロゴ" width={92} height={92} className="lg:hidden absolute bottom-4 right-4 pointer-events-none opacity-60" />
+                <p className="text-gray-500 mt-4 text-center">一致するプログラムがありません。</p>
+              </ScrollArea>
+            )}
             <VoteButton
               user_id={user_id}
               testDate={testDate}
               selectedPrograms={selectedPrograms}
-              setSelectedPrograms={setSelectedPrograms} // 選択プロジェクトをクリアするための関数を渡す
+              setSelectedPrograms={setSelectedPrograms}
             />
           </CardContent>
         </Card>
@@ -96,12 +104,13 @@ export default function MultipleMCForm({
         <History
           user_id={user_id}
           days={days}
-          types={types}
+          departments={departments}
           programs={allPrograms}
           votesHistory={votesHistory}
         />
       )}
-      <OpenHistoryButton showHistory={showHistory} setShowHistory={setShowHistory} />
+      <MCToggleHistoryButton showHistory={showHistory} setShowHistory={setShowHistory} />
     </form>
   );
+
 }

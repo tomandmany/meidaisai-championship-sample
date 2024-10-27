@@ -7,10 +7,10 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
 interface MCVoteButtonProps {
-    selectedPrograms: { id: string; title: string }[];
+    selectedPrograms: { id: string; title: string, department: string }[];
     user_id: string;
     testDate?: Date;
-    setSelectedPrograms: (programs: { id: string; title: string }[]) => void;
+    setSelectedPrograms: (programs: { id: string; title: string, department: string }[]) => void;
 }
 
 export default function MCVoteButton({ selectedPrograms, user_id, testDate, setSelectedPrograms }: MCVoteButtonProps) {

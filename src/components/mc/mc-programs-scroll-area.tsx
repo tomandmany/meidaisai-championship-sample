@@ -6,13 +6,13 @@ import Image from "next/image";
 import { Dispatch } from "react";
 
 interface ProgramsScrollAreaProps {
-  selectedPrograms: { id: string; title: string }[];
-  setSelectedPrograms: Dispatch<React.SetStateAction<{ id: string; title: string }[]>>;
+  selectedPrograms: { id: string; title: string, department: string }[];
+  setSelectedPrograms: Dispatch<React.SetStateAction<{ id: string; title: string, department: string }[]>>;
   filteredPrograms: Program[];
 }
 
 export default function ProgramsScrollArea({ selectedPrograms, setSelectedPrograms, filteredPrograms }: ProgramsScrollAreaProps) {
-  const handleProgramSelect = (program: { id: string; title: string }) => {
+  const handleProgramSelect = (program: { id: string; title: string, department: string }) => {
     setSelectedPrograms(prev =>
       prev.some(p => p.id === program.id)
         ? prev.filter(p => p.id !== program.id)
@@ -27,12 +27,12 @@ export default function ProgramsScrollArea({ selectedPrograms, setSelectedProgra
         <div
           key={program.id}
           className={`flex items-center justify-between p-2 rounded-md mb-2 cursor-pointer ${selectedPrograms.some(p => p.id === program.id) ? 'bg-primary/20' : 'hover:bg-secondary'}`}
-          onClick={() => handleProgramSelect({ id: program.id, title: program.title })}
+          onClick={() => handleProgramSelect({ id: program.id, title: program.title, department: program.department })}
         >
           <div className="flex-grow">
             <div className="font-semibold">{program.title}</div>
             <div className="text-sm text-muted-foreground">{program.detail}</div>
-            <div className="text-xs text-muted-foreground mt-1">{program.type} | {program.place} | {program.genre}</div>
+            <div className="text-xs text-muted-foreground mt-1">{program.department} | {program.place} | {program.genre}</div>
           </div>
           {selectedPrograms.some(p => p.id === program.id) && (
             <Check className="h-5 w-5 text-primary flex-shrink-0 ml-2" />
