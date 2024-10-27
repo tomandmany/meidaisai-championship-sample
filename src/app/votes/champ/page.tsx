@@ -93,10 +93,8 @@ export default async function Page({ searchParams }: { searchParams: { testDate?
            !votedProgramIds.has(program.id);
   });
 
-  const isExistingTodayVote = votesHistory.some(vote => {
-    const voteDateStr = new Date(vote.created_at).toISOString().split('T')[0];
-    return voteDateStr === todayStr;
-  });
+  // 3日間全体の投票履歴を確認する
+  const isExistingVoteInThreeDays = votesHistory.length > 0;
 
   return (
     <>
@@ -109,7 +107,7 @@ export default async function Page({ searchParams }: { searchParams: { testDate?
         allPrograms={programData}
         filteredPrograms={filteredPrograms}
       />
-      {isExistingTodayVote && <TicketContext userId={userId!} ticketUsed={ticketUsed} />}
+      {isExistingVoteInThreeDays && <TicketContext userId={userId!} ticketUsed={ticketUsed} />}
     </>
   );
 }
