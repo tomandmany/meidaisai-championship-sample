@@ -34,14 +34,21 @@ export default function MCVoteButton({ selectedPrograms, user_id, testDate, setS
                     border: 'transparent',
                 },
             });
-        } catch (error) {
-            toast.error('エラーが発生しました。', {
+        } catch (error: any) {
+            toast.error(error.message, {
                 style: {
                     background: '#f44336',
                     color: '#ffffff',
                     border: 'transparent',
                 },
             });
+            // toast.error('エラーが発生しました。', {
+            //     style: {
+            //         background: '#f44336',
+            //         color: '#ffffff',
+            //         border: 'transparent',
+            //     },
+            // });
         } finally {
             setLoading(false); // ローディング終了
         }

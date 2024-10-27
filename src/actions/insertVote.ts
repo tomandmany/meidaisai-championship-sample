@@ -1,6 +1,8 @@
 // @/app/api/votes/insertVote.ts
 'use server';
 
+import { getAllVotes } from '@/data/getAllVotes';
+import { getVotesHistory } from '@/data/getVotesHistory';
 import getJSTDate from '@/lib/getJSTDate';
 import { supabase } from '@/lib/supabaseClient';
 import { revalidatePath } from 'next/cache';
@@ -43,6 +45,17 @@ export async function insertVote({
 
     console.log('新しいユーザーが追加されました:', user_id);
   }
+
+  const votesHistory = await getVotesHistory(user_id);
+
+  programs.map(program => {
+    votesHistory.map(vote => {
+      if (vote.program_id === program.id) {
+        console.error('すでに投票済みです:', program, vote);
+        throw new Error('すでに投票済みです');
+      }
+    });
+  })
 
   const votesData = programs.map(program => ({
     user_id,
