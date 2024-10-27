@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import MCToggleHistoryButton from "@/components/mc/mc-toggle-history-button";
+import MCToggleHistoryAndResultButton from "@/components/mc/mc-toggle-history-and-result-button";
 import MCHistory from "@/components/mc/mc-history";
 import McResult from "@/components/mc/mc-result";
 import MCLabel from "@/components/mc/mc-label";
@@ -65,7 +65,7 @@ export default function MCAfterVotingPeriodWithUserID({
                 </Card>
             )}
 
-            <MCToggleHistoryButton
+            <MCToggleHistoryAndResultButton
                 showHistory={showHistory}
                 showResult={showResult}
                 setShowHistory={setShowHistory}

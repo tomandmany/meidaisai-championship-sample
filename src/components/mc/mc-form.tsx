@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import McFormFilter from '@/components/mc/mc-form-filter';
 import ProgramsScrollArea from '@/components/mc/mc-programs-scroll-area';
-import MCToggleHistoryButton from '@/components/mc/mc-toggle-history-button';
+import MCToggleHistoryAndResultButton from '@/components/mc/mc-toggle-history-and-result-button';
 import VoteButton from '@/components/mc/mc-vote-button';
 import SearchBar from '@/components/mc/mc-search-bar';
 import History from '@/components/mc/mc-history';
@@ -109,7 +109,7 @@ export default function MCForm({
           votesHistory={votesHistory}
         />
       )}
-      <MCToggleHistoryButton showHistory={showHistory} setShowHistory={setShowHistory} />
+      <MCToggleHistoryAndResultButton showHistory={showHistory} setShowHistory={setShowHistory} />
     </form>
   );
 

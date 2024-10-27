@@ -69,16 +69,27 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
 
       {isTicketModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/95 z-mc-ticket-modal">
-          <div className="relative w-svw h-svh flex flex-col justify-center items-center gap-10">
-            <Image src="/votes/ticket.svg" alt="抽選券" width={500} height={500} />
-            <UseTicketButton userId={userId} isTicketUsed={isTicketUsed} setIsTicketUsed={setIsTicketUsed} />
+          <div className="relative w-svw h-svh flex flex-col justify-center items-center gap-7">
+            <div className="flex flex-col items-center gap-4">
+              <Image src="/votes/reception.svg" alt="第一校舎学部掲示板前" width={300} height={300} />
+              <p className="text-white w-[350px]">
+                「明大祭大抽選会」への参加をご希望される方は、
+                総務局の企画受付場所の第一校舎学部掲示板前へお越しください。
+                詳しくは公式パンフレットp.〇〇をご参照ください。
+              </p>
+            </div>
+            {/* <Image src="/votes/ticket.svg" alt="抽選券" width={500} height={500} /> */}
+            <div>
+              <UseTicketButton userId={userId} isTicketUsed={isTicketUsed} setIsTicketUsed={setIsTicketUsed} />
+              <p className="text-red-500 text-lg text-center mt-4 font-black">ご自分では使用しないでください。</p>
+            </div>
             <Button
               type="button"
               variant="outline"
               onClick={() => setIsTicketModalOpen(false)}
-              className="absolute bottom-4 left-4 w-12 h-12 rounded-full shadow-lg hover:bg-gray-200"
+              className="absolute bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-10 xl:bottom-12 2xl:bottom-14 left-4 sm:left-6 md:left-8 lg:left-10 xl:left-12 2xl:left-14 rounded-full w-12 h-12 sm:w-14 md:w-16 lg:w-20 xl:w-24 2xl:w-28 sm:h-14 md:h-16 lg:h-20 xl:h-24 2xl:h-28 z-mc-toggle-button"
             >
-              <X />
+              <X className="min-w-5 sm:min-w-6 lg:min-w-8 xl:min-w-10 2xl:min-w-12 min-h-6 lg:min-h-8 xl:min-h-10 2xl:min-h-12" />
             </Button>
           </div>
         </div>

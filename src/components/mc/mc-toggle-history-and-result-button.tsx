@@ -1,10 +1,10 @@
-// @/app/components/mc/mc-toggle-history-button.tsx
+// @/app/components/mc/mc-toggle-history-and-result-button.tsx
 'use client';
 
 import { Button } from '@/components/ui/button';
 import { Crown, History, X } from 'lucide-react';
 
-interface MCToggleHistoryButtonProps {
+interface MCToggleHistoryAndResultButtonProps {
     showHistory: boolean;
     showResult?: boolean;
     setShowHistory: (value: boolean) => void;
@@ -12,13 +12,13 @@ interface MCToggleHistoryButtonProps {
     isAfterVotingPeriod?: boolean;
 }
 
-export default function MCToggleHistoryButton({
+export default function MCToggleHistoryAndResultButton({
     showHistory,
     setShowHistory,
     showResult,
     setShowResult,
     isAfterVotingPeriod,
-}: MCToggleHistoryButtonProps) {
+}: MCToggleHistoryAndResultButtonProps) {
     const toggleHistory = () => {
         setShowHistory(!showHistory);
         setShowResult!(false); // 他のモーダルを閉じる
