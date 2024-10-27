@@ -1,8 +1,8 @@
 'use client'
 
-import Ticket from '@/components/Multiple/ticket'
+import Ticket from '@/components/mc/mc-ticket'
 import { DndContext, DragEndEvent, DragMoveEvent, TouchSensor } from '@dnd-kit/core';
-import TicketDroppableArea from './ticket-droppable-area'
+import TicketDroppableArea from './mc-ticket-droppable-area'
 import { useRef, useState } from 'react';
 import { MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
 

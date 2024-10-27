@@ -1,4 +1,4 @@
-// app/components/CatchPhrase.tsx
+// app/components/catch-phrase.tsx
 
 import Image from "next/image";
 

@@ -4,16 +4,24 @@ declare global {
   type Vote = Tables<'votes'>;
   type User = Tables<'users'>;
 
-  type Project = {
+  type Program = {
     id: string;
-    name: string;
-    description: string;
-    department: string;
-    day: string;
-    location: string;
+    type: string;
+    group: string;
+    title: string;
+    catch: string;
+    detail: string;
     genre: string;
-  }
-  
+    place: string;
+    room: string;
+    date: string;
+    status: string[];
+    insta: string;
+    x: string;
+    tiktok: string;
+    hp: string;
+  };
+
   // type Vote = {
   //   projectId: string;
   // }

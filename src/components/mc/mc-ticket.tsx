@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useDraggable } from "@dnd-kit/core";
 import Image from 'next/image';
 import { CSSProperties, useEffect, useState } from 'react';
-import UseTicketButton from "./use-ticket-button";
+import UseTicketButton from "./mc-use-ticket-button";
 import { X } from "lucide-react";
 
 type TicketProps = {

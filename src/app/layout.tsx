@@ -7,8 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { jaJP } from "@/localization/ja-JP";
 import "./globals.css";
 import Image from "next/image";
-import CatchPhrase from "@/components/CatchPhrase";
-import SignOutButton from "@/components/Multiple/SignOutButton";
+import CatchPhrase from "@/components/mc/mc-catch-phrase";
+import SignOutButton from "@/components/mc/mc-sign-out-button";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={jaJP}>
       <html lang="ja">
-        <body className={`bg-votes-champ relative ${inter.className}`}>
+        <body className={`bg-votes-champ relative h-[100svh] ${inter.className}`}>
           <header className="h-[50px] bg-[#e07594]" />
           <Toaster position="top-center" className="z-mc-toast" />
           <CatchPhrase />
@@ -36,7 +36,9 @@ export default function RootLayout({
             height={1080}
             className="absolute top-0 z-mc-bg"
           />
-          {children}
+          <main className="h-[calc(100svh-50px)] flex justify-center items-center">
+            {children}
+          </main>
           <Image
             src={'/votes/bottom.svg'}
             alt="下の飾り"

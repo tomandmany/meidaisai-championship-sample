@@ -34,22 +34,22 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          project_id: string
-          project_name: string
+          program_id: string
+          program_name: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          project_id: string
-          project_name: string
+          program_id: string
+          program_name: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
-          project_id?: string
-          project_name?: string
+          program_id?: string
+          program_name?: string
           user_id?: string
         }
         Relationships: [

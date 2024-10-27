@@ -1,110 +1,106 @@
-// import MCForm from '@/components/MCForm';
-// import LotteryTicket from '@/components/LotteryTicket';
-// import SignOutButton from '@/components/SignOutButton';
-// import VoteHistory from '@/components/VoteHistory';
-// import SignInButton from '@/components/SignInButton';
-// import BeforeVotingPeriod from '@/components/BeforeVotingPeriod';
-// import AfterVotingPeriod from '@/components/AfterVotingPeriod';
+// app/page.tsx
 
-// import { getVotingStatus } from '@/lib/getVotingStatus';
-// import { supabase } from '@/lib/supabaseClient';
+import { auth } from "@clerk/nextjs/server";
 
-// import { getVotesHistory } from '@/data/getVotesHistory';
-// import { getUserData } from '@/data/getUserData';
-// import MCCard from '@/components/MCCard';
-// import DescriptionItem from '@/components/DescriptionItem';
-// import Image from 'next/image';
+import MCAfterVotingPeriodWithOutUserID from "@/components/mc/mc-after-voting-period-without-user-id";
+import MCAfterVotingPeriodWithUserID from "@/components/mc/mc-after-voting-period-with-user-id";
+import MCBeforeVotingPeriod from "@/components/mc/mc-before-voting-period";
+import MCSignInGuidance from "@/components/mc/mc-sign-in-guidance";
+import TicketContext from "@/components/mc/mc-ticket-context";
+import MCForm from "@/components/mc/mc-form";
 
-// export default async function Page({ searchParams }: { searchParams: { testDate?: string } }) {
-//   const { data, userId } = await getUserData();
+import { getVotesHistory } from "@/data/getVotesHistory";
+import { getVotingStatus } from "@/lib/getVotingStatus";
+import { getUserData } from "@/data/getUserData";
+import { programData } from "@/data/programData";
 
-//   if (userId) {
-//     // SupabaseにuserIdを保存
-//     const { error } = await supabase
-//       .from('users')
-//       .upsert([{ user_id: userId }], { onConflict: 'user_id' });
+const types = ['模擬店部門', '屋外ステージ部門', '教室部門'];
+const days = ['2024-11-02', '2024-11-03', '2024-11-04'];
+// const places = ["第一校舎", "メディア棟", "第二学生会館", "和泉ラーニングスクエア", "エントランスエリア", "メインステージ", "パフォーマンスエリア", "その他"];
+// const genres = ["食べ物", "飲み物", "雑貨", "ゲーム", "音楽", "パフォーマンス"];
 
-//     if (error) {
-//       console.error('Error inserting/updating user data:', error.message);
-//     }
-//   }
+// 日付形式のマッピング関数
+const mapDateToDay = (dateStr: string): string => {
+  const dateMap: { [key: string]: string } = {
+    '2024-11-02': '2日',
+    '2024-11-03': '3日',
+    '2024-11-04': '4日',
+  };
+  return dateMap[dateStr] || '全日';
+};
 
-//   const testDate = searchParams.testDate ? new Date(`2024-${searchParams.testDate}`) : undefined;
+export default async function Page({ searchParams }: { searchParams: { testDate?: string } }) {
+  const { userId } = auth();
 
-//   // サーバーサイドで投票期間を判定
-//   const votingStatus = getVotingStatus(testDate);
+  const testDate = searchParams.testDate ? new Date(`2024-${searchParams.testDate}`) : undefined;
+  const today = testDate || new Date();
+  const todayStr = today.toISOString().split('T')[0];
 
-//   // 3日間の投票履歴を取得
-//   const votesHistory = await getVotesHistory(userId!);
+  const votingStatus = getVotingStatus(today);
 
-//   // 当日または testDate に対して投票があるか確認
-//   const today = testDate || new Date();
-//   const todayStr = today.toISOString().split('T')[0]; // YYYY-MM-DD形式に変換
+  if (!userId) {
+    if (votingStatus.isDuring) {
+      return (
+        <MCSignInGuidance />
+      );
+    } else if (votingStatus.isBefore) { // 投票期間前
+      return <MCBeforeVotingPeriod />;
+    } else if (votingStatus.isAfter) {  // 投票期間後
+      return <MCAfterVotingPeriodWithOutUserID />;
+    } else {
+      return <div>投票期間を判定できないエラーが発生しました。</div>
+    }
+  }
 
-//   // 当日の投票があるかどうかを確認
-//   const hasExistingDataForToday = votesHistory.some(vote => {
-//     const voteDateStr = new Date(vote.created_at).toISOString().split('T')[0];
-//     return voteDateStr === todayStr;
-//   });
+  let ticketUsed = false;
+  try {
+    const { data } = await getUserData(userId);
+    ticketUsed = data?.ticket_used ?? false;
+  } catch (error) {
+    console.error("ユーザーデータの取得に失敗しました:", error);
+  }
 
-//   const ticketUsed = data?.[0]?.ticket_used || false; // ticket_used の値を取得
+  const votesHistory = await getVotesHistory(userId);
 
-//   console.log('userId:', userId);
-//   console.log('votingStatus:', votingStatus);
+  if (votingStatus.isBefore) {
+    return <MCBeforeVotingPeriod />;
+  }
 
-//   // 投票期間前
-//   if (votingStatus.isBefore) {
-//     return <BeforeVotingPeriod />;
-//   }
+  if (votingStatus.isAfter) {
+    return <MCAfterVotingPeriodWithUserID days={days} types={types} programs={programData} user_id={userId} votesHistory={votesHistory} />;
+  }
 
-//   // 投票期間後
-//   if (votingStatus.isAfter) {
-//     return <AfterVotingPeriod votesHistory={votesHistory} testDate={testDate} userId={userId} />;
-//   }
+  const votedProgramIds = new Set(votesHistory.map(vote => vote.program_id));
 
-//   return (
-//     <main className="flex min-h-screen flex-col items-center justify-center">
-//       {votingStatus.isDuring && userId ? (
-//         <>
-//           <div className="flex flex-wrap gap-10">
-//             <MCCard>
-//               <MCForm userId={userId!} votesHistory={votesHistory} testDate={testDate} />
-//             </MCCard>
-//             <VoteHistory votesHistory={votesHistory} testDate={testDate} />
-//           </div>
-//           {hasExistingDataForToday && <LotteryTicket userId={userId} ticketUsed={ticketUsed} />}
-//           <SignOutButton />
-//         </>
-//       ) : (
-//         <>
-//           <MCCard>
-//             <DescriptionItem title='投票日時'>
-//               11月2日(土)11：00～11月4日(月・祝)17：00
-//             </DescriptionItem>
-//             <DescriptionItem title='注意点'>
-//               <span className="flex flex-col items-start pl-4 -indent-4 space-y-2">
-//                 <span>・LINEアカウントのログインが必須です。</span>
-//                 <span>・実施されていない団体への投票はできません。</span>
-//                 <span>・LINEアカウントがない方は総合インフォメーションまで。</span>
-//               </span>
-//             </DescriptionItem>
-//             <Image
-//               src={'/votes/information.svg'}
-//               alt="キャンパスマップ"
-//               width={250}
-//               height={250}
-//               className="mx-auto"
-//             />
-//           </MCCard>
-//           <SignInButton>投票にすすむ！</SignInButton>
-//         </>
-//       )}
-//     </main>
-//   );
-// }
+  // 今日の日付に対応する「n日」形式を取得
+  const todayMappedDay = mapDateToDay(todayStr);
 
-export default function Page() {
+  // プログラムをフィルタリング（投票済みを除外し、当日のものと「全日」のものを取得）
+  const filteredPrograms = programData.filter(
+    program =>
+      (program.date === todayMappedDay || program.date === '全日') &&
+      !votedProgramIds.has(program.id)
+  );
+
+  const isExistingTodayVote = votesHistory.some(vote => {
+    const voteDateStr = new Date(vote.created_at).toISOString().split('T')[0];
+    return voteDateStr === todayStr;
+  });
+
   return (
-    <div></div>
-  )
+    <>
+      <MCForm
+        user_id={userId}
+        votesHistory={votesHistory}
+        testDate={testDate}
+        types={types}
+        days={days}
+        // places={places}
+        // genres={genres}
+        allPrograms={programData}
+        filteredPrograms={filteredPrograms}
+      />
+      {isExistingTodayVote && <TicketContext userId={userId!} ticketUsed={ticketUsed} />}
+    </>
+  );
 }

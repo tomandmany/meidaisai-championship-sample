@@ -17,8 +17,9 @@ const config: Config = {
         'mc-history-modal': '4',
         'mc-history-scroll-area': '5',
         'mc-history-title': '6',
-        'mc-history-button': '7',
-        'mc-ticket-modal': '8',
+        'mc-toggle-button': '7',
+        'mc-toggle-button-container': '8',
+        'mc-ticket-modal': '9',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

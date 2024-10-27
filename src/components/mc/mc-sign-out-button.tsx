@@ -16,7 +16,7 @@ export default function SignOutButton() {
     if (isDuring) {
       setRedirectUrl('/sign-in');
     } else {
-      setRedirectUrl('/sample');
+      setRedirectUrl(`${process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL}`);
     }
   }, []);
 

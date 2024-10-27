@@ -7,16 +7,16 @@ import { revalidatePath } from 'next/cache';
 
 interface InsertVoteParams {
   user_id: string;
-  projects: { id: string; name: string }[];
+  programs: { id: string; title: string }[];
   testDate?: Date;
 }
 
 export async function insertVote({
   user_id,
-  projects,
+  programs,
   testDate,
 }: InsertVoteParams): Promise<string> {
-  console.log('Inserting votes:', { projects, testDate });
+  console.log('Inserting votes:', { programs, testDate });
 
   // ユーザーが存在するか確認
   const { data: userExists, error: userCheckError } = await supabase
@@ -44,11 +44,11 @@ export async function insertVote({
     console.log('新しいユーザーが追加されました:', user_id);
   }
 
-  const votesData = projects.map(project => ({
+  const votesData = programs.map(program => ({
     user_id,
     created_at: testDate ? getJSTDate(testDate) : getJSTDate(),
-    project_id: project.id,
-    project_name: project.name,
+    program_id: program.id,
+    program_name: program.title,
   }));
 
   const { error: insertError } = await supabase.from('votes').insert(votesData);
