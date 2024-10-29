@@ -75,7 +75,7 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
               <p className="text-white w-[350px]">
                 「明大祭大抽選会」への参加をご希望される方は、
                 総務局の企画受付場所の第一校舎学部掲示板前へお越しください。
-                詳しくは公式パンフレットp.〇〇をご参照ください。
+                詳しくは公式パンフレットp.14をご参照ください。
               </p>
             </div>
             {/* <Image src="/votes/ticket.svg" alt="抽選券" width={500} height={500} /> */}

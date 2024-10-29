@@ -29,23 +29,23 @@ export default function RootLayout({
           <header className="h-[50px] bg-[#e07594]" />
           <Toaster position="top-center" className="z-mc-toast" />
           <CatchPhrase />
-          <Image
+          {/* <Image
             src={'/votes/top.svg'}
             alt="上の飾り"
             width={1920}
             height={1080}
             className="absolute top-0 z-mc-bg"
-          />
+          /> */}
           <main className="h-[calc(100svh-50px)] flex justify-center items-center">
             {children}
           </main>
-          <Image
+          {/* <Image
             src={'/votes/bottom.svg'}
             alt="下の飾り"
             width={1920}
             height={1080}
             className="absolute bottom-0 z-mc-bg"
-          />
+          /> */}
           {/* <footer className="h-[987px] bg-[#e07594] mt-24" /> */}
           {/* <SignOutButton /> */}
         </body>
