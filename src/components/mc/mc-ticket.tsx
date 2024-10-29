@@ -71,7 +71,9 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
         <div className="fixed inset-0 flex items-center justify-center bg-black/95 z-mc-ticket-modal">
           <div className="relative w-svw h-svh flex flex-col justify-center items-center gap-7">
             <div className="flex flex-col items-center gap-4">
-              <Image src="/votes/reception.svg" alt="第一校舎学部掲示板前" width={300} height={300} />
+              <div className="bg-white p-4">
+                <Image src="/votes/reception.svg" alt="第一校舎学部掲示板前" width={300} height={300} />
+              </div>
               <p className="text-white w-[350px]">
                 「明大祭大抽選会」への参加をご希望される方は、
                 総務局の企画受付場所の第一校舎学部掲示板前へお越しください。
