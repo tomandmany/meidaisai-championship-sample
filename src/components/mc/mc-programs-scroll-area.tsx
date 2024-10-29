@@ -22,7 +22,7 @@ export default function ProgramsScrollArea({ selectedPrograms, setSelectedProgra
 
   return (
     <ScrollArea className="flex-grow rounded-md border p-2 sm:pb-2 h-[calc(618px-(36px*3+8px*2))] sm:h-[618px] relative">
-      <Image src="/votes/logo.svg" alt="ロゴ" width={70} height={70} className="lg:hidden absolute bottom-4 right-4 pointer-events-none opacity-40" />
+      <Image src="/votes/logo.svg" alt="ロゴ" width={70} height={70} className="lg:hidden absolute bottom-3 right-3 pointer-events-none opacity-40" />
       {/* <div className="bg-white absolute bottom-0 right-0 p-2 lg:hidden">
         <Image src="/votes/logo.svg" alt="ロゴ" width={108} height={108} className="opacity-60" />
       </div> */}

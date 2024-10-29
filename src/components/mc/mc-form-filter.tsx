@@ -20,8 +20,8 @@ interface MCFormFilterProps {
     resetFilter: (type: 'departments' | 'places' | 'genres') => void
 }
 
-const places = ["第一校舎", "メディア棟", "第二学生会館", "和泉ラーニングスクエア", "エントランスエリア", "メインステージ", "パフォーマンスエリア", "その他"];
-const genres = ["食べ物", "飲み物", "雑貨", "ゲーム", "音楽", "パフォーマンス"];
+const places = ["第一校舎", "メディア棟", "和泉ラーニングスクエア", "エントランスエリア", "メインステージ", "パフォーマンスエリア", "その他"];
+const genres = ["食べ物", "参加体験", "物品販売", "ダンス", "音楽", "パフォーマンス", "ゲスト", "展示発表", "喫茶"];
 
 export default function MCFormFilter({
     departments,

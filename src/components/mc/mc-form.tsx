@@ -57,14 +57,33 @@ export default function MCForm({
     setFilters((prev) => ({ ...prev, [type]: new Set<string>() }));
   };
 
-  const filteredPrograms = programs.filter(
-    program =>
-      (searchTerm === '' || program.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (filters.departments.size === 0 || filters.departments.has(program.department)) &&
-      (filters.places.size === 0 || filters.places.has(program.place)) &&
-      (filters.genres.size === 0 || filters.genres.has(program.genre))
-  );
-
+  const filteredPrograms = programs.filter((program) => {
+    const searchInProgram = Object.values(program)
+      .map((value) => (typeof value === 'string' ? value.toLowerCase() : ''))
+      .join(' ');
+  
+    const matchesSearchTerm =
+      searchTerm === '' || searchInProgram.includes(searchTerm.toLowerCase());
+  
+    const matchesDepartment =
+      filters.departments.size === 0 || filters.departments.has(program.department);
+  
+    const matchesPlace =
+      filters.places.size === 0 || filters.places.has(program.place);
+  
+    const matchesGenre =
+      filters.genres.size === 0 || filters.genres.has(program.genre);
+  
+    return matchesSearchTerm && matchesDepartment && matchesPlace && matchesGenre;
+  });  
+  
+  // const filteredPrograms = programs.filter(
+  //   program =>
+  //     (searchTerm === '' || program.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  //     (filters.departments.size === 0 || filters.departments.has(program.department)) &&
+  //     (filters.places.size === 0 || filters.places.has(program.place)) &&
+  //     (filters.genres.size === 0 || filters.genres.has(program.genre))
+  // );
 
   return (
     <form className="container mx-auto h-full max-w-4xl relative sm:p-4">
