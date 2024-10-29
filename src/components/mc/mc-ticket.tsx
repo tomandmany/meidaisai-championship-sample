@@ -50,8 +50,8 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
           {...listeners}
           className="object-contain fixed z-mc-ticket left-4 bottom-4 flex justify-center items-center cursor-not-allowed"
         >
-          <Image src="/votes/ticket.svg" alt="抽選券" width={150} height={150} className="sm:w-40 md:w-52 lg:w-60 xl:w-64 brightness-50" />
-          <span className="absolute text-white md:text-xl lg:text-2xl">使用済み</span>
+          <Image src="/votes/ticket.svg" alt="抽選券" width={200} height={200} className="not-move-ticket w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96 brightness-50" />
+          <span className="absolute select-none text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">使用済み</span>
         </div>
       ) : (
         <Button
@@ -61,9 +61,9 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
           {...attributes}
           {...listeners}
           onClick={() => setIsTicketModalOpen(true)}
-          className="object-contain p-0 fixed z-mc-ticket left-4 bottom-10 sm:bottom-10 md:bottom-14 lg:bottom-16 xl:bottom-[70px]"
+          className="object-contain p-0 fixed z-mc-ticket left-4 bottom-14 sm:bottom-16 md:bottom-20 lg:bottom-[90px] xl:bottom-[110px]"
         >
-          <Image src="/votes/ticket.svg" alt="抽選券" width={150} height={150} className="sm:w-40 md:w-52 lg:w-60 xl:w-64" />
+          <Image src="/votes/ticket.svg" alt="抽選券" width={200} height={200} className="not-move-ticket w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96" />
         </Button>
       )}
 
