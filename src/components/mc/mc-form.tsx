@@ -107,6 +107,7 @@ export default function MCForm({
           departments={departments}
           programs={allPrograms}
           votesHistory={votesHistory}
+          testDate={testDate}
         />
       )}
       <MCToggleHistoryAndResultButton showHistory={showHistory} setShowHistory={setShowHistory} />

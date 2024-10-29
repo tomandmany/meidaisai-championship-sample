@@ -83,6 +83,7 @@ export default async function Page({ searchParams }: PageProps) {
         user_id={userId}
         votesHistory={votesHistory}
         allVotes={allVotes}
+        testDate={testDate}
       />
     );
   }

@@ -17,10 +17,11 @@ interface MCAfterVotingPeriodWithUserIDProps {
     programs: Program[];
     votesHistory: Vote[];
     allVotes: Vote[];
+    testDate?: Date;
 }
 
 export default function MCAfterVotingPeriodWithUserID({
-    votesHistory, programs, user_id, departments, days, allVotes,
+    votesHistory, programs, user_id, departments, days, allVotes, testDate
 }: MCAfterVotingPeriodWithUserIDProps) {
     const [showHistory, setShowHistory] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -28,7 +29,7 @@ export default function MCAfterVotingPeriodWithUserID({
     return (
         <>
             {showHistory && (
-                <MCHistory days={days} user_id={user_id} departments={departments} programs={programs} votesHistory={votesHistory} />
+                <MCHistory days={days} user_id={user_id} departments={departments} programs={programs} votesHistory={votesHistory} testDate={testDate} />
             )}
             {showResult && <McResult departments={departments} allVotes={allVotes} />}
 
