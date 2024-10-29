@@ -80,7 +80,7 @@ export default function MCHistory({ user_id, days, departments, programs, votesH
                     {/* <h4 className="font-bold text-lg">{department}</h4> */}
                     <MCLabel>{department}</MCLabel>
                     {filteredVotes.length === 0 ? (
-                      <p className="ml-6 mt-2">投票がありません。</p>
+                      <p className="ml-6 mt-2 text-muted-foreground">投票されていません。</p>
                     ) : (
                       <ScrollArea
                         className='list-disc list-inside rounded-md ml-4 p-2 z-mc-history-and-result-area h-fit'

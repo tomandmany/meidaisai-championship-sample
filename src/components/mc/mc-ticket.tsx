@@ -83,7 +83,7 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
             {/* <Image src="/votes/ticket.svg" alt="抽選券" width={500} height={500} /> */}
             <div>
               <UseTicketButton userId={userId} isTicketUsed={isTicketUsed} setIsTicketUsed={setIsTicketUsed} />
-              <p className="text-red-500 text-lg text-center mt-4 font-black">ご自分では使用しないでください。</p>
+              <p className="text-red-500 text-base text-center mt-4 font-black">ご自分では使用しないでください。</p>
             </div>
             <Button
               type="button"

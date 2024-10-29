@@ -13,7 +13,7 @@ export default function MCResultByDepartment({ department, votes }: MCResultByDe
         {votes.length > 0 ? (
           renderVotesWithSameRank(votes)
         ) : (
-          <p className="text-gray-500">投票されていません。</p>
+          <p className="text-muted-foreground">投票されていません。</p>
         )}
       </ul>
     </div>

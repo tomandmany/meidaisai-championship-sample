@@ -9,6 +9,7 @@ import "./globals.css";
 import Image from "next/image";
 import CatchPhrase from "@/components/mc/mc-catch-phrase";
 import SignOutButton from "@/components/mc/mc-sign-out-button";
+import { auth } from "@clerk/nextjs/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +18,15 @@ export const metadata: Metadata = {
   description: "Meidaisai Championshipのアプリです。",
 };
 
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<RootLayoutProps>) {
+  const { userId } = auth();
+
   return (
     <ClerkProvider localization={jaJP}>
       <html lang="ja">
@@ -47,7 +52,7 @@ export default function RootLayout({
             className="absolute bottom-0 z-mc-bg"
           /> */}
           {/* <footer className="h-[987px] bg-[#e07594] mt-24" /> */}
-          {/* <SignOutButton /> */}
+          {userId && <SignOutButton />}
         </body>
       </html>
     </ClerkProvider>

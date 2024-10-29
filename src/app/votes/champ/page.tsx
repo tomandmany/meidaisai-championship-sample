@@ -15,7 +15,7 @@ import { getUserData } from "@/data/getUserData";
 import { programData } from "@/data/programData";
 import { getAllVotes } from "@/data/getAllVotes";
 
-const departments = ['模擬店部門', '屋外ステージ部門', '教室部門', '実行委員企画'];
+const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
 const days = ['2024-11-02', '2024-11-03', '2024-11-04'];
 
 // 日付形式のマッピング関数
@@ -34,7 +34,11 @@ const extractDayFromDate = (dateStr: string): string => {
   return match ? `${match[1]}日` : '全日';
 };
 
-export default async function Page({ searchParams }: { searchParams: { testDate?: string } }) {
+interface PageProps {
+  searchParams: { testDate?: string };
+}
+
+export default async function Page({ searchParams }: PageProps) {
   const { userId } = auth();
 
   const testDate = searchParams.testDate ? new Date(`2024-${searchParams.testDate}`) : undefined;

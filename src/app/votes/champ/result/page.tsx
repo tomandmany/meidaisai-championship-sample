@@ -3,6 +3,8 @@
 import { getAllVotes } from "@/data/getAllVotes";
 import McResult from "@/components/mc/mc-result";
 
+const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
+
 export default async function Page() {
   const allVotes = await getAllVotes();
 
@@ -15,6 +17,6 @@ export default async function Page() {
   }
 
   return (
-    <McResult allVotes={allVotes} />
+    <McResult departments={departments} allVotes={allVotes} />
   );
 }

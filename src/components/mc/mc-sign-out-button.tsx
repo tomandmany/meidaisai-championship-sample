@@ -43,7 +43,7 @@ export default function SignOutButton() {
     >
       {/* ログアウトする */}
       <LogOut size={36} />
-      <span className='text-sm'>ログアウト</span>
+      {/* <span className='text-sm'>ログアウト</span> */}
     </button>
   );
 }

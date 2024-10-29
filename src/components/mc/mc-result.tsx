@@ -2,6 +2,7 @@ import MCResultByDepartment from "./mc-result-by-department";
 
 interface MCResultProps {
   allVotes: Vote[];
+  departments: string[];
 }
 
 function filterVotesByDepartment(votes: { program_name: string; department: string | null }[]) {
@@ -20,7 +21,7 @@ function filterVotesByDepartment(votes: { program_name: string; department: stri
   }, {} as Record<string, [string, number][]>);
 }
 
-export default function McResult({ allVotes }: MCResultProps) {
+export default function McResult({ departments, allVotes }: MCResultProps) {
   if (allVotes.length === 0) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black">
@@ -28,7 +29,7 @@ export default function McResult({ allVotes }: MCResultProps) {
       </div>
     );
   }
-  
+
   const filteredVotesByDepartment = filterVotesByDepartment(allVotes);
 
   return (
@@ -37,8 +38,15 @@ export default function McResult({ allVotes }: MCResultProps) {
         投票結果
       </div>
       <div className="sm:min-h-[calc(100svh-80px)] flex flex-wrap justify-center gap-2 sm:gap-10 sm:py-16">
-        {Object.entries(filteredVotesByDepartment).map(([department, votes]) => (
+        {/* {Object.entries(filteredVotesByDepartment).map(([department, votes]) => (
           <MCResultByDepartment key={department} department={department || "不明な部門"} votes={votes} />
+        ))} */}
+        {departments.map((department) => (
+          <MCResultByDepartment
+            key={department}
+            department={department}
+            votes={filteredVotesByDepartment[department] || []}
+          />
         ))}
       </div>
     </div>
