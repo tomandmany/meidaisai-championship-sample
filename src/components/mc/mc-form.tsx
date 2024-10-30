@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 
-import McFormFilter from '@/components/mc/mc-form-filter';
-import ProgramsScrollArea from '@/components/mc/mc-programs-scroll-area';
 import MCToggleHistoryAndResultButton from '@/components/mc/mc-toggle-history-and-result-button';
+import ProgramsScrollArea from '@/components/mc/mc-programs-scroll-area';
+import McFormFilter from '@/components/mc/mc-form-filter';
 import VoteButton from '@/components/mc/mc-vote-button';
 import SearchBar from '@/components/mc/mc-search-bar';
 import History from '@/components/mc/mc-history';
@@ -36,7 +36,10 @@ export default function MCForm({
   allPrograms,
   filteredPrograms: programs,
 }: MCFormProps) {
-  const [showHistory, setShowHistory] = useState(false);
+  const [showView, setShowView] = useState<'history' | 'result' | null>(null);
+  const toggleView = (view: 'history' | 'result') =>
+    setShowView((prev) => (prev === view ? null : view));
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPrograms, setSelectedPrograms] = useState<{ id: string; title: string, department: string }[]>([]);
   const [filters, setFilters] = useState({
@@ -61,22 +64,22 @@ export default function MCForm({
     const searchInProgram = Object.values(program)
       .map((value) => (typeof value === 'string' ? value.toLowerCase() : ''))
       .join(' ');
-  
+
     const matchesSearchTerm =
       searchTerm === '' || searchInProgram.includes(searchTerm.toLowerCase());
-  
+
     const matchesDepartment =
       filters.departments.size === 0 || filters.departments.has(program.department);
-  
+
     const matchesPlace =
       filters.places.size === 0 || filters.places.has(program.place);
-  
+
     const matchesGenre =
       filters.genres.size === 0 || filters.genres.has(program.genre);
-  
+
     return matchesSearchTerm && matchesDepartment && matchesPlace && matchesGenre;
-  });  
-  
+  });
+
   // const filteredPrograms = programs.filter(
   //   program =>
   //     (searchTerm === '' || program.title.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -87,7 +90,7 @@ export default function MCForm({
 
   return (
     <form className="container mx-auto h-full max-w-4xl relative sm:p-4">
-      {!showHistory ? (
+      {!showView ? (
         <Card className="-mb-24 sm:mb-0 sm:max-w-xl mx-auto border-none rounded-none sm:rounded-3xl shadow-none sm:shadow-lg h-[calc(100svh-50px)] sm:h-[calc(100svh-(50px+2rem))]">
           <CardContent className="px-8 py-4 sm:py-10 flex flex-col min-h-full max-h-full">
             <div className="flex gap-2 mb-2">
@@ -129,8 +132,12 @@ export default function MCForm({
           testDate={testDate}
         />
       )}
-      <MCToggleHistoryAndResultButton showHistory={showHistory} setShowHistory={setShowHistory} />
+      <MCToggleHistoryAndResultButton
+        showView={showView}
+        toggleView={toggleView}
+        showHistory={true}
+        showResult={false}
+      />
     </form>
   );
-
 }

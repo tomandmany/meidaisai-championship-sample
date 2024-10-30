@@ -1,8 +1,22 @@
-import { Card, CardContent } from "@/components/ui/card";
-import MCSignInButton from "@/components/mc/mc-sign-in-button";
-import Image from "next/image";
+'use client'
 
-export default function MCAfterVotingPeriodWithOutUserID() {
+import { useState } from "react";
+import Image from "next/image";
+import MCToggleHistoryAndResultButton from "@/components/mc/mc-toggle-history-and-result-button";
+import MCSignInButton from "@/components/mc/mc-sign-in-button";
+import McResult from "@/components/mc/mc-result";
+import { Card, CardContent } from "@/components/ui/card";
+
+interface MCAfterVotingPeriodWithOutUserIDProps {
+    departments: string[];
+    allVotes: Vote[];
+}
+
+export default function MCAfterVotingPeriodWithOutUserID({ departments, allVotes }: MCAfterVotingPeriodWithOutUserIDProps) {
+    const [showView, setShowView] = useState<'history' | 'result' | null>(null);
+    const toggleView = (view: 'history' | 'result') =>
+        setShowView((prev) => (prev === view ? null : view));
+
     return (
         <div className="flex flex-col items-center w-full gap-10">
             <Image
@@ -23,6 +37,13 @@ export default function MCAfterVotingPeriodWithOutUserID() {
                     <MCSignInButton />
                 </CardContent>
             </Card>
+            {showView === 'result' && <McResult departments={departments} allVotes={allVotes} />}
+            <MCToggleHistoryAndResultButton
+                showView={showView}
+                toggleView={toggleView}
+                showHistory={false}
+                showResult={true}
+            />
         </div>
     );
 }
