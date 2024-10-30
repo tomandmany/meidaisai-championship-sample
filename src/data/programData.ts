@@ -1757,7 +1757,7 @@ export const programData: Program[] = [
     id: 'r003',
     department: '教室部門',
     group: 'アカペラサークルSound Arts',
-    title: '教室部門2024',
+    title: '教室企画2024',
     catch: 'アカペラで歌うよ！2024',
     detail:
       '1年生から4年生まで多数バンド出演！LS502教室でたくさんたくさん歌います!!!',

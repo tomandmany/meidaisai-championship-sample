@@ -50,7 +50,8 @@ export default function MCProgramOptionFloatingName({
         style={{ transform: `translateX(${position}px)` }}
         className="absolute"
       >
-        {program.title} | {program.group}
+        {/* {program.title} | {program.group} */}
+        {program.title}（{program.group}）
       </span>
     </div>
   );
