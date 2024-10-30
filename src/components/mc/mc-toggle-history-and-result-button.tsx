@@ -28,7 +28,7 @@ export default function MCToggleHistoryAndResultButton({
       type="button"
       variant="outline"
       size="icon"
-      className={`flex rounded-full w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 ${showView !== view && showView !== null && 'invisible'}`}
+      className={`flex rounded-full w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-24 xl:h-24 2xl:w-28 2xl:h-28 ${showView !== null && 'border-black'} ${showView !== view && showView !== null && 'invisible'}`}
       onClick={() => toggleView(view)}
     >
       {showView === view ? <X className={ICON_SIZE} /> : <Icon className={ICON_SIZE} />}
