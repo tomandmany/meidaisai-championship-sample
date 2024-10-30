@@ -75,11 +75,14 @@ export default function MCHistory({ testDate, user_id, days, departments, progra
 
   return (
     <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-votes-champ bg-white">
-    {/* <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-[#F3F4F6]"> */}
-      <div className="font-bold text-2xl text-white p-6 sm:text-center bg-[#E07494] sticky left-0 top-0 z-mc-history-and-result-title">
+      {/* <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-[#F3F4F6]"> */}
+      {/* <div className="font-bold text-2xl text-white p-6 sm:text-center bg-[#E07494] sticky left-0 top-0 z-mc-history-and-result-title">
+        投票履歴
+      </div> */}
+      <div className="font-bold text-white h-[50px] pl-6 sm:pl-0 text-xl flex items-center sm:justify-center bg-[#E07494] sticky left-0 top-0 z-mc-history-and-result-title">
         投票履歴
       </div>
-      <div className="p-0 sm:px-6 sm:pt-7 sm:pb-10 sm:min-h-[calc(100svh-80px)] flex flex-col sm:flex-row flex-wrap gap-x-10 gap-y-5">
+      <div className="p-0 sm:px-6 sm:pt-7 sm:pb-10 sm:min-h-[calc(100svh-50px)] flex flex-col sm:flex-row flex-wrap gap-x-10 gap-y-5">
         {days.map((day) => (
           <Card key={day} className="flex-grow min-w-fit min-h-full rounded-none sm:rounded-xl">
             <CardHeader>
