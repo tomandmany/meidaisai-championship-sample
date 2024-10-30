@@ -74,7 +74,7 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
               <div className="bg-white p-4">
                 <Image src="/votes/reception.svg" alt="第一校舎学部掲示板前" width={300} height={300} />
               </div>
-              <p className="text-white w-[350px]">
+              <p className="text-white w-[332px]">
                 「
                 <a href="https://www.meidaisai.jp/lottery" className="text-[#63BDEA] underline hover:no-underline">明大祭大抽選会</a>
                 」への参加をご希望される方は、
