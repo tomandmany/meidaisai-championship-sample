@@ -1,7 +1,6 @@
 // @/app/api/votes/insertVote.ts
 'use server';
 
-import { getAllVotes } from '@/data/getAllVotes';
 import { getVotesHistory } from '@/data/getVotesHistory';
 import getJSTDate from '@/lib/getJSTDate';
 import { supabase } from '@/lib/supabaseClient';
