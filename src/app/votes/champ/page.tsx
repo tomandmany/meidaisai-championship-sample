@@ -26,8 +26,11 @@ const dateMap: { [key: string]: string } = {
 
 const mapDateToDay = (dateStr: string) => dateMap[dateStr] || '全日';
 
-const extractDayFromDate = (dateStr: string) =>
-  dateStr.match(/^(\d+)日/)?.[1] + '日' || '全日';
+function extractDayFromDate(dateStr: string) {
+  if (dateStr === '全日') return '全日';
+  const match = dateStr.match(/^(\d+)日/);
+  return match ? `${match[1]}日` : '全日';
+}
 
 interface PageProps {
   searchParams: { testDate?: string };
@@ -134,6 +137,7 @@ function filterPrograms(todayStr: string, votesHistory: any) {
 
   return programData.filter((program) => {
     const programDay = extractDayFromDate(program.date);
+
     return (
       (programDay === todayMappedDay || programDay === '全日') &&
       !votedProgramIds.has(program.id)
