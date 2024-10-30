@@ -25,7 +25,7 @@ export default function MCProgramOption({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex-grow">
+      <div className="max-w-full">
         <MCProgramOptionFloatingName
           program={program}
           shouldAnimate={isHovered || isSelected}
