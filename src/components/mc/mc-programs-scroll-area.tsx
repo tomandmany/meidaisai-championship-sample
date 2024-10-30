@@ -37,7 +37,7 @@ export default function ProgramsScrollArea({
         alt="ロゴ"
         width={70}
         height={70}
-        className="lg:hidden absolute bottom-3 right-3 pointer-events-none opacity-40"
+        className="lg:hidden absolute bottom-2 right-1 pointer-events-none opacity-40"
       />
       {filteredPrograms.map((program) => (
         <MCProgramOption

@@ -75,7 +75,9 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
                 <Image src="/votes/reception.svg" alt="第一校舎学部掲示板前" width={300} height={300} />
               </div>
               <p className="text-white w-[350px]">
-                「明大祭大抽選会」への参加をご希望される方は、
+                「
+                <a href="https://www.meidaisai.jp/lottery" className="text-[#63BDEA] underline hover:no-underline">明大祭大抽選会</a>
+                」への参加をご希望される方は、
                 総務局企画受付場所の和泉図書館前総合インフォメーションへお越しください。
                 詳しくは公式パンフレットp.14をご参照ください。
               </p>
