@@ -12,7 +12,7 @@ import MCForm from "@/components/mc/mc-form";
 import { getVotesHistory } from "@/data/getVotesHistory";
 import { getVotingStatus } from "@/lib/getVotingStatus";
 import { getUserData } from "@/data/getUserData";
-import { programData } from "@/data/programData";
+import { programData } from "@/data/legacy-programData";
 import { getAllVotes } from "@/data/getAllVotes";
 
 const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];

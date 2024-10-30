@@ -68,3 +68,26 @@
 .not-move-ticket {
   -webkit-user-drag: none;
 }
+
+/* .marquee-container {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap; */
+  /* width: 100%; コンテナの幅を親要素にフィット */
+  /* height: 1.5rem; 高さを固定 */
+/* } */
+
+/* .marquee-content {
+  display: inline-block; */
+  /* padding-right: 100%; スクロール感を自然にするために余白を追加 */
+  /* animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+} */
