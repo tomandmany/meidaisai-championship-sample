@@ -6,9 +6,9 @@ import { Dispatch } from "react";
 import MCProgramOption from "./mc-program-option";
 
 interface ProgramsScrollAreaProps {
-  selectedPrograms: { id: string; title: string; department: string }[];
+  selectedPrograms: { id: string; title: string; department: string, date: string }[];
   setSelectedPrograms: Dispatch<
-    React.SetStateAction<{ id: string; title: string; department: string }[]>
+    React.SetStateAction<{ id: string; title: string; department: string, date: string }[]>
   >;
   filteredPrograms: Program[];
 }
@@ -22,6 +22,7 @@ export default function ProgramsScrollArea({
     id: string;
     title: string;
     department: string;
+    date: string;
   }) => {
     setSelectedPrograms((prev) =>
       prev.some((p) => p.id === program.id)

@@ -14,23 +14,10 @@ import { getVotingStatus } from "@/lib/getVotingStatus";
 import { getUserData } from "@/data/getUserData";
 import { programData } from "@/data/legacy-programData";
 import { getAllVotes } from "@/data/getAllVotes";
+import { extractDayFromDate, mapDateToDay } from "@/lib/voteUtils";
 
 const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
 const days = ['2024-11-02', '2024-11-03', '2024-11-04'];
-
-const dateMap: { [key: string]: string } = {
-  '2024-11-02': '2日',
-  '2024-11-03': '3日',
-  '2024-11-04': '4日',
-};
-
-const mapDateToDay = (dateStr: string) => dateMap[dateStr] || '全日';
-
-function extractDayFromDate(dateStr: string) {
-  if (dateStr === '全日') return '全日';
-  const match = dateStr.match(/^(\d+)日/);
-  return match ? `${match[1]}日` : '全日';
-}
 
 interface PageProps {
   searchParams: { testDate?: string };
@@ -128,19 +115,31 @@ function renderAfterVotingView({
   );
 }
 
-function filterPrograms(todayStr: string, votesHistory: any) {
-  const votedProgramIds = new Set(
-    votesHistory.map((vote: any) => vote.program_id)
-  );
-
+function filterPrograms(todayStr: string, votesHistory: Vote[]) {
   const todayMappedDay = mapDateToDay(todayStr);
 
-  return programData.filter((program) => {
-    const programDay = extractDayFromDate(program.date);
+  // 投票履歴からプログラムごとの投票日をマッピング
+  const votedProgramMap = new Map<string, Set<string>>(); // { program_id: Set<day> }
 
-    return (
-      (programDay === todayMappedDay || programDay === '全日') &&
-      !votedProgramIds.has(program.id)
-    );
+  votesHistory.forEach((vote) => {
+    const voteDate = new Date(vote.created_at).toISOString().split('T')[0]; // YYYY-MM-DD
+    const voteDay = mapDateToDay(voteDate); // 日付を "2日", "3日" の形式に変換
+
+    if (!votedProgramMap.has(vote.program_id)) {
+      votedProgramMap.set(vote.program_id, new Set());
+    }
+    votedProgramMap.get(vote.program_id)!.add(voteDay);
+  });
+
+  return programData.filter((program) => {
+    const programDays = program.date === '全日'
+      ? days.map(mapDateToDay) // 全日なら全ての日程を含む
+      : [extractDayFromDate(program.date)];
+
+    // 今日のプログラムが未投票の場合のみ表示
+    const isTodayRelevant = programDays.includes(todayMappedDay);
+    const hasVotedToday = votedProgramMap.get(program.id)?.has(todayMappedDay) ?? false;
+
+    return isTodayRelevant && !hasVotedToday;
   });
 }

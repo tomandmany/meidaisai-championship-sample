@@ -41,7 +41,7 @@ export default function MCForm({
     setShowView((prev) => (prev === view ? null : view));
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPrograms, setSelectedPrograms] = useState<{ id: string; title: string, department: string }[]>([]);
+  const [selectedPrograms, setSelectedPrograms] = useState<{ id: string; title: string, department: string, date: string }[]>([]);
   const [filters, setFilters] = useState({
     departments: new Set<string>(),
     places: new Set<string>(),
