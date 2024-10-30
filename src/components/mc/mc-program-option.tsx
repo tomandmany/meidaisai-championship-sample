@@ -33,12 +33,12 @@ export default function MCProgramOption({
         <div className="text-sm text-muted-foreground line-clamp-2">
           {program.detail}
         </div>
-        <div className="text-xs text-muted-foreground mt-1">
+        <div className="text-xs text-muted-foreground mt-1 line-clamp-1">
           {program.department} | {program.place} | {program.genre}
         </div>
       </div>
       {isSelected && (
-        <Check className="h-5 w-5 text-primary flex-shrink-0 ml-2" />
+        <Check className="h-8 w-8 text-[#c56681] flex-shrink-0 ml-2" />
       )}
     </div>
   );
