@@ -74,7 +74,8 @@ export default function MCHistory({ testDate, user_id, days, departments, progra
   };
 
   return (
-    <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-votes-champ bg-white">
+    <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-mc-background">
+    {/* <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-votes-champ bg-white"> */}
       {/* <div className="fixed inset-0 border-none z-mc-history-and-result-modal overflow-auto rounded-none bg-[#F3F4F6]"> */}
       {/* <div className="font-bold text-2xl text-white p-6 sm:text-center bg-[#E07494] sticky left-0 top-0 z-mc-history-and-result-title">
         投票履歴

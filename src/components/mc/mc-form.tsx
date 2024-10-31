@@ -91,9 +91,9 @@ export default function MCForm({
   return (
     <form className="container mx-auto h-full max-w-4xl relative sm:p-4">
       {!showView ? (
-        <Card className="-mb-24 sm:mb-0 sm:max-w-xl mx-auto border-none rounded-none sm:rounded-3xl shadow-none sm:shadow-lg h-[calc(100svh-50px)] sm:h-[calc(100svh-(50px+2rem))]">
+        <Card className="-mb-24 sm:mb-0 sm:max-w-xl mx-auto border-none rounded-none sm:rounded-3xl shadow-none sm:shadow-lg h-[calc(100svh-50px)] sm:h-[calc(100svh-(50px+2rem))] bg-mc-background">
           <CardContent className="px-8 py-4 sm:py-10 flex flex-col min-h-full max-h-full">
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 items-center">
               <McFormFilter
                 departments={departments}
                 filters={filters}
@@ -101,6 +101,13 @@ export default function MCForm({
                 resetFilter={resetFilter}
               />
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+              <Image
+                src="/votes/logo.svg"
+                alt="ロゴ"
+                width={50}
+                height={50}
+                className="lg:hidden pointer-events-none"
+              />
             </div>
             {filteredPrograms.length > 0 ? (
               <ProgramsScrollArea

@@ -48,7 +48,7 @@ export default function Ticket({ position, userId, ticketUsed }: TicketProps) {
           style={style}
           {...attributes}
           {...listeners}
-          className="object-contain fixed z-mc-ticket left-4 bottom-4 flex justify-center items-center cursor-not-allowed"
+          className="object-contain fixed z-mc-ticket left-8 bottom-16 flex justify-center items-center cursor-not-allowed"
         >
           <Image src="/votes/ticket.svg" alt="抽選券" width={200} height={200} className="not-move-ticket w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96 brightness-50" />
           <span className="absolute select-none text-white text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl">使用済み</span>

@@ -6,7 +6,6 @@ import { ClerkProvider } from '@clerk/nextjs'
 import { Toaster } from "@/components/ui/sonner";
 import { jaJP } from "@/localization/ja-JP";
 import "./globals.css";
-import Image from "next/image";
 import CatchPhrase from "@/components/mc/mc-catch-phrase";
 import SignOutButton from "@/components/mc/mc-sign-out-button";
 import { auth } from "@clerk/nextjs/server";
@@ -30,7 +29,8 @@ export default function RootLayout({
   return (
     <ClerkProvider localization={jaJP}>
       <html lang="ja">
-        <body className={`bg-votes-champ relative h-[100svh] ${inter.className}`}>
+      <body className={`bg-mc-background relative h-[100svh] ${inter.className}`}>
+      {/* <body className={`bg-votes-champ relative h-[100svh] ${inter.className}`}> */}
           <header className="h-[50px] bg-[#e07594]" />
           <Toaster position="top-center" className="z-mc-toast" />
           <CatchPhrase />

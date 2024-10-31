@@ -37,7 +37,7 @@ export default function MCFormFilter({
     return (
         <Popover open={isPopoverOpen} onOpenChange={togglePopover}>
             <PopoverTrigger asChild>
-                <Button variant="outline" className={`w-fit px-3 ${isPopoverOpen && 'border-black'}`} onClick={togglePopover}>
+                <Button variant="outline" className={`w-fit px-3 bg-white ${isPopoverOpen && 'border-black'}`} onClick={togglePopover}>
                     {isPopoverOpen ? <X /> : <ListFilter />}
                     <span className='hidden sm:inline'>
                         {isPopoverOpen ? '閉じる' : '絞り込む'}

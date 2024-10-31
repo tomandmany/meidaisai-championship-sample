@@ -25,7 +25,10 @@ const config: Config = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'votes-champ': 'url(/votes/bg.svg)',
+        // 'votes-champ': 'url(/votes/bg.svg)',
+      },
+      backgroundColor: {
+        'mc-background': '#fbe7e5',
       },
       borderRadius: {
         lg: 'var(--radius)',

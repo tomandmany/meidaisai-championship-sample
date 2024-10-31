@@ -1,7 +1,6 @@
 // components/ProgramsScrollArea.tsx
 
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Image from "next/image";
 import { Dispatch } from "react";
 import MCProgramOption from "./mc-program-option";
 
@@ -32,14 +31,14 @@ export default function ProgramsScrollArea({
   };
 
   return (
-    <ScrollArea className="flex-grow rounded-md border p-2 sm:pb-2 h-[calc(618px-(36px*3+8px*2))] sm:h-[618px] relative">
-      <Image
+    <ScrollArea className="flex-grow rounded-md border p-2 sm:pb-2 h-[calc(618px-(36px*3+8px*2))] sm:h-[618px] relative bg-white">
+      {/* <Image
         src="/votes/logo.svg"
         alt="ロゴ"
         width={70}
         height={70}
         className="lg:hidden absolute bottom-2 right-1 pointer-events-none opacity-40"
-      />
+      /> */}
       {filteredPrograms.map((program) => (
         <MCProgramOption
           key={program.id}

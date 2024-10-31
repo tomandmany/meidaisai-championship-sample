@@ -4,7 +4,6 @@
 import { getVotesHistory } from '@/data/getVotesHistory';
 import getJSTDate from '@/lib/getJSTDate';
 import { supabase } from '@/lib/supabaseClient';
-import { extractDayFromDate, mapDateToDay } from '@/lib/voteUtils';
 import { revalidatePath } from 'next/cache';
 
 interface InsertVoteParams {
@@ -22,7 +21,30 @@ export async function insertVote({
 }: InsertVoteParams): Promise<string> {
   console.log('Inserting votes:', { programs, testDate });
 
-  // ユーザーが存在するか確認
+  const today = getCurrentDateString(testDate);
+
+  await ensureUserExists(user_id, today);
+
+  const votesHistory = await getVotesHistory(user_id);
+
+  programs.map((program) => {
+    validateProgramVote(program, votesHistory, today);
+  });
+
+  const votesData = createVotesData(user_id, programs, today);
+
+  await insertVotes(votesData);
+
+  revalidatePath('/votes/champ');
+
+  return '投票が完了しました。';
+}
+
+function getCurrentDateString(testDate?: Date): string {
+  return (testDate ? getJSTDate(testDate) : getJSTDate()).split('T')[0];
+}
+
+async function ensureUserExists(user_id: string, createdAt: string) {
   const { data: userExists, error: userCheckError } = await supabase
     .from('users')
     .select('id')
@@ -40,7 +62,7 @@ export async function insertVote({
   if (!userExists) {
     const { error: insertUserError } = await supabase.from('users').insert({
       user_id,
-      created_at: getJSTDate(new Date()),
+      created_at: createdAt,
     });
 
     if (insertUserError) {
@@ -49,51 +71,52 @@ export async function insertVote({
     }
     console.log('新しいユーザーが追加されました:', user_id);
   }
+}
 
-  const votesHistory = await getVotesHistory(user_id);
+function validateProgramVote(
+  program: { id: string; title: string; date: string },
+  votesHistory: { program_id: string; created_at: string }[],
+  today: string
+) {
+  if (!program.date) {
+    console.error('投票したい企画に日付が指定されていません:', program);
+    throw new Error('投票したい企画に日付が指定されていません');
+  }
 
-  // **投票済みかどうかを日付ごとにチェック**
-  const isAlreadyVoted = (programId: string, day: string) => {
-    return votesHistory.some((vote) => {
-      const voteDate = new Date(vote.created_at).toISOString().split('T')[0];
-      const voteDay = mapDateToDay(voteDate);
-      return vote.program_id === programId && voteDay === day;
-    });
-  };
+  if (program.date === '全日') {
+    const isAlreadyVoted = (programId: string) =>
+      votesHistory.some((vote) => {
+        const voteDate = getJSTDate(new Date(vote.created_at)).split('T')[0];
+        return vote.program_id === programId && voteDate === today;
+      });
 
-  programs.forEach((program) => {
-    // const today = testDate ? getJSTDate(testDate) : new Date();
-    // const todayStr = today.toISOString().split('T')[0];
-    const today = (testDate ? getJSTDate(testDate) : getJSTDate()) as string;
-    const todayStr = new Date(today).toISOString().split('T')[0];
-    const todayMappedDay = mapDateToDay(todayStr);
-
-    const programDays =
-      program.date === '全日'
-        ? days.map(mapDateToDay) // 全日なら全ての日を対象
-        : [extractDayFromDate(program.date)];
-
-    // 今日が対象の日に含まれ、かつ未投票であれば投票可能
-    const isVotableToday =
-      programDays.includes(todayMappedDay) &&
-      !isAlreadyVoted(program.id, todayMappedDay);
-
-    if (!isVotableToday) {
-      console.error('すでに投票済みです:', program, todayMappedDay);
-      throw new Error(
-        `すでに投票済みです: ${program.title} (${todayMappedDay})`
-      );
+    if (isAlreadyVoted(program.id)) {
+      console.error('すでに投票済みです:', program, today);
+      throw new Error(`すでに投票済みです: ${program.title} (${today})`);
     }
-  });
+  } else if (['2日', '3日', '4日'].includes(program.date)) {
+    if (votesHistory.some((vote) => vote.program_id === program.id)) {
+      console.error('すでに投票済みです:', program);
+      throw new Error(`すでに投票済みです: ${program.title}`);
+    }
+  }
+}
 
-  const votesData = programs.map((program) => ({
+function createVotesData(
+  user_id: string,
+  programs: { id: string; title: string; department: string }[],
+  createdAt: string
+) {
+  return programs.map((program) => ({
     user_id,
-    created_at: testDate ? getJSTDate(testDate) : getJSTDate(),
+    created_at: createdAt,
     department: program.department,
     program_id: program.id,
     program_name: program.title,
   }));
+}
 
+async function insertVotes(votesData: any[]) {
   const { error: insertError } = await supabase.from('votes').insert(votesData);
 
   if (insertError) {
@@ -102,8 +125,4 @@ export async function insertVote({
       '投票の挿入中にエラーが発生しました: ' + insertError.message
     );
   }
-
-  revalidatePath('/votes/champ');
-
-  return '投票が完了しました。';
 }

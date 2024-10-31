@@ -5,7 +5,8 @@ import MCSignInButton from "./mc-sign-in-button";
 
 export default function MCSignInGuidance() {
     return (
-        <Card className="flex justify-center items-center w-full h-full sm:max-w-xl sm:h-fit sm:p-10 rounded-none sm:rounded-xl border-none sm:border">
+        <Card className="flex justify-center items-center w-full h-full sm:max-w-xl sm:h-fit sm:p-10 rounded-none sm:rounded-xl border-none sm:border bg-[#fff2f1]">
+        {/* <Card className="flex justify-center items-center w-full h-full sm:max-w-xl sm:h-fit sm:p-10 rounded-none sm:rounded-xl border-none sm:border bg-mc-background"> */}
             <CardContent className="text-sm sm:text-base px-6 sm:px-0 py-0 space-y-6">
                 <div className="space-y-2">
                     <MCLabel>投票日時</MCLabel>

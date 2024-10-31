@@ -26,14 +26,13 @@ export default function MCAfterVotingPeriodWithOutUserID({ departments, allVotes
                 height={200}
                 className="object-contain lg:hidden"
             />
-            <Card className="flex justify-center items-center w-full h-full sm:max-w-md sm:h-fit py-10 sm:p-10 rounded-none sm:rounded-xl border-none sm:border">
+            <Card className="flex justify-center items-center px-6 h-full sm:max-w-md sm:h-fit py-10 sm:p-10 rounded-2xl border-none sm:border">
+                {/* <Card className="flex justify-center items-center w-full h-full sm:max-w-md sm:h-fit py-10 sm:p-10 rounded-none sm:rounded-xl border-none sm:border"> */}
                 <CardContent className="p-0">
                     <h2 className="font-bold text-2xl leading-10 text-center mb-2">
                         投票期間は終了しました。
                     </h2>
-                    <div className="mb-8">
-                        <p>ログインすると投票履歴を見ることができます。</p>
-                    </div>
+                    <p className="mb-8 text-sm">ログインすると投票履歴を見ることができます。</p>
                     <MCSignInButton />
                 </CardContent>
             </Card>
