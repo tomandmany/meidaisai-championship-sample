@@ -30,7 +30,6 @@ export default function RootLayout({
     <ClerkProvider localization={jaJP}>
       <html lang="ja">
       <body className={`bg-mc-background relative h-[100svh] ${inter.className}`}>
-      {/* <body className={`bg-votes-champ relative h-[100svh] ${inter.className}`}> */}
           <header className="h-[50px] bg-[#e07594]" />
           <Toaster position="top-center" className="z-mc-toast" />
           <CatchPhrase />

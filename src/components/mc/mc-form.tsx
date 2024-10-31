@@ -91,7 +91,7 @@ export default function MCForm({
   return (
     <form className="container mx-auto h-full max-w-4xl relative sm:p-4">
       {!showView ? (
-        <Card className="-mb-24 sm:mb-0 sm:max-w-xl mx-auto border-none rounded-none sm:rounded-3xl shadow-none sm:shadow-lg h-[calc(100svh-50px)] sm:h-[calc(100svh-(50px+2rem))] bg-mc-background">
+        <Card className="-mb-24 sm:mb-0 sm:max-w-xl mx-auto border-none rounded-none sm:rounded-3xl shadow-none sm:shadow-lg h-[calc(100svh-50px)] sm:h-[calc(100svh-(50px+2rem))] bg-mc-form">
           <CardContent className="px-8 py-4 sm:py-10 flex flex-col min-h-full max-h-full">
             <div className="flex gap-2 mb-2 items-center">
               <McFormFilter

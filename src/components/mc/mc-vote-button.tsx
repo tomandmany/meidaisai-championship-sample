@@ -59,9 +59,8 @@ export default function MCVoteButton({ selectedPrograms, user_id, testDate, setS
             <Button
                 type='button'
                 onClick={handleInsertVote}
-                className={`w-full mt-3 sm:mt-2 bg-[#E07594] hover:bg-[#c56681] ${
-                    loading || selectedPrograms.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+                className={`w-full mt-3 sm:mt-2 bg-[#E07594] hover:bg-[#c56681] ${loading || selectedPrograms.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                 disabled={loading || selectedPrograms.length === 0} // ローディング中は無効化
             >
                 {loading ? (

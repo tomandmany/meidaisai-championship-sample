@@ -33,7 +33,7 @@ export default function McResult({ departments, allVotes }: MCResultProps) {
   const filteredVotesByDepartment = filterVotesByDepartment(allVotes);
 
   return (
-    <div className="fixed inset-0 overflow-y-auto z-mc-history-and-result-modal bg-mc-background">
+    <div className="fixed inset-0 overflow-y-auto z-mc-history-and-result-modal bg-mc-background bg-white">
       {/* <div className="font-bold text-2xl text-white p-6 sm:text-center bg-[#EB9697] sticky top-0 z-mc-history-and-result-title">
         投票結果
       </div> */}
