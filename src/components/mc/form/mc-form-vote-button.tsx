@@ -112,8 +112,8 @@ export default function MCFormVoteButton({ selectedPrograms, user_id, testDate, 
                                 <div className="space-y-2">
                                     <h6 className="font-bold">投票日時</h6>
                                     <div className="flex flex-col">
-                                        <span>11月2日(土)11:00～18:30</span>
-                                        <span>11月3日(日)11:00～18:30</span>
+                                        <span>11月2日(土)11:00～18:00</span>
+                                        <span>11月3日(日)11:00～18:00</span>
                                         <span>11月4日(月・祝)11:00～16:30</span>
                                     </div>
                                 </div>
