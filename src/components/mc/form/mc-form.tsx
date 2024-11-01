@@ -88,24 +88,52 @@ export default function MCForm({
     };
 
     const filteredPrograms = programs.filter((program) => {
-        const searchInProgram = Object.values(program)
-            .map((value) => (typeof value === 'string' ? value.toLowerCase() : ''))
+        const searchInProgram = Object.entries(program)
+            .map(([key, value]) => {
+                if (typeof value === 'string') {
+                    return value.toLowerCase();
+                } else if (Array.isArray(value)) {
+                    return value.map((item) => (typeof item === 'string' ? item.toLowerCase() : '')).join(' ');
+                }
+                return '';
+            })
             .join(' ');
-
+    
         const matchesSearchTerm =
             searchTerm === '' || searchInProgram.includes(searchTerm.toLowerCase());
-
+    
         const matchesDepartment =
             filters.departments.size === 0 || filters.departments.has(program.department);
-
+    
         const matchesPlace =
             filters.places.size === 0 || filters.places.has(program.place);
-
+    
         const matchesGenre =
             filters.genres.size === 0 || filters.genres.has(program.genre);
-
+    
         return matchesSearchTerm && matchesDepartment && matchesPlace && matchesGenre;
     });
+    
+
+    // const filteredPrograms = programs.filter((program) => {
+    //     const searchInProgram = Object.values(program)
+    //         .map((value) => (typeof value === 'string' ? value.toLowerCase() : ''))
+    //         .join(' ');
+
+    //     const matchesSearchTerm =
+    //         searchTerm === '' || searchInProgram.includes(searchTerm.toLowerCase());
+
+    //     const matchesDepartment =
+    //         filters.departments.size === 0 || filters.departments.has(program.department);
+
+    //     const matchesPlace =
+    //         filters.places.size === 0 || filters.places.has(program.place);
+
+    //     const matchesGenre =
+    //         filters.genres.size === 0 || filters.genres.has(program.genre);
+
+    //     return matchesSearchTerm && matchesDepartment && matchesPlace && matchesGenre;
+    // });
 
     // const filteredPrograms = programs.filter(
     //   program =>
@@ -143,7 +171,7 @@ export default function MCForm({
                                 filteredPrograms={filteredPrograms}
                             />
                         ) : (
-                            <ScrollArea className="flex-grow rounded-md border p-2 sm:pb-2 h-[calc(618px-(36px*3+8px*2))] sm:h-[618px] relative">
+                            <ScrollArea className="flex-grow rounded-md border p-2 sm:pb-2 h-[calc(618px-(36px*3+8px*2))] sm:h-[618px] relative bg-white">
                                 <Image src="/votes/logo.svg" alt="ロゴ" width={92} height={92} className="lg:hidden absolute bottom-4 right-4 pointer-events-none opacity-60" />
                                 <p className="text-gray-500 mt-4 text-center">一致するプログラムがありません。</p>
                             </ScrollArea>
