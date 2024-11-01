@@ -1,4 +1,5 @@
 // app/page.tsx
+
 import { auth } from "@clerk/nextjs/server";
 
 import MCPeriodAfterWithOutUserID from "@/components/mc/period/mc-period-after-without-user-id";
@@ -15,6 +16,8 @@ import { programData } from "@/data/programData";
 import getTutorials from "@/data/getTutorials";
 import { getVotingStatus } from "@/lib/getVotingStatus";
 import { extractDayFromDate, mapDateToDay } from "@/lib/voteUtils";
+import getRemainingVotingTimes from "@/lib/getRemainingVotingTime";
+import MCPeriodStatusDisplay from "@/components/mc/period/mc-period-status-display";
 
 const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
 const days = ['2024-11-02', '2024-11-03', '2024-11-04'];
@@ -28,7 +31,7 @@ export default async function Page({ searchParams }: PageProps) {
   const testDate = searchParams.testDate
     ? new Date(`2024-${searchParams.testDate}`)
     : undefined;
-  
+
   const today = testDate || new Date();
   const todayStr = today.toISOString().split('T')[0];
 
@@ -47,24 +50,40 @@ export default async function Page({ searchParams }: PageProps) {
       testDate,
     });
 
+  const votingTimesDisplay = days.map(day => {
+    const { startDelay, endDelay } = getRemainingVotingTimes(day, testDate);
+    const now = new Date();
+    const startTime = new Date(now.getTime() + (startDelay ?? 0));
+    const endTime = new Date(now.getTime() + (endDelay ?? 0));
+
+    return (
+      <MCPeriodStatusDisplay key={day} day={day} startTime={startTime} endTime={endTime} />
+    );
+  });
+
   const filteredPrograms = filterPrograms(todayStr, votesHistory);
 
   return (
     <>
-      {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
-        <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} />
-      )}
-      <MCForm
-        user_id={userId}
-        votesHistory={votesHistory}
-        testDate={testDate}
-        departments={departments}
-        days={days}
-        allPrograms={programData}
-        filteredPrograms={filteredPrograms}
-      />
-      {votesHistory.length > 0 && (
-        <MCTicketContext userId={userId!} ticketUsed={ticketUsed} />
+      {votingTimesDisplay}
+      {votingTimesDisplay.every(display => !display) && ( // votingTimesDisplayのメッセージが全てnullの場合のみ表示
+        <>
+          {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
+            <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} />
+          )}
+          <MCForm
+            user_id={userId}
+            votesHistory={votesHistory}
+            testDate={testDate}
+            departments={departments}
+            days={days}
+            allPrograms={programData}
+            filteredPrograms={filteredPrograms}
+          />
+          {votesHistory.length > 0 && (
+            <MCTicketContext userId={userId!} ticketUsed={ticketUsed} />
+          )}
+        </>
       )}
     </>
   );

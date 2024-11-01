@@ -33,7 +33,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/actions/insertVote.ts"
   ],
   "exclude": [
     "node_modules"
