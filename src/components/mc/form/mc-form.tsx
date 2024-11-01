@@ -151,7 +151,6 @@ export default function MCForm({
                         <MCFormVoteButton
                             user_id={user_id}
                             testDate={testDate}
-                            days={days}
                             selectedPrograms={selectedPrograms}
                             setSelectedPrograms={setSelectedPrograms}
                         />
