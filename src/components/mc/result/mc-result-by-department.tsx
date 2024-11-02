@@ -1,4 +1,5 @@
-// @/components/mc/result/mc-result-by-department.tsx
+// Path: @/components/mc/result/mc-result-by-department.tsx
+'use client';
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -13,7 +14,13 @@ export default function MCResultByDepartment({ department, votes }: MCResultByDe
       <h2 className="text-2xl font-semibold mb-4">{department}</h2>
       <ul className="space-y-2 w-full">
         {votes.length > 0 ? (
-          renderVotesWithSameRank(votes)
+          votes.length > 8 ? (
+            <ScrollArea className="h-[480px] border border-primary/50 rounded-md">
+              {renderVotesWithSameRank(votes)}
+            </ScrollArea>
+          ) : (
+            renderVotesWithSameRank(votes)
+          )
         ) : (
           <p className="text-muted-foreground">投票されていません。</p>
         )}
@@ -28,35 +35,33 @@ function renderVotesWithSameRank(votes: [string, number][]) {
 
   let currentRank = 1;
   let currentVoteCount = sortedVotes[0][1];
+  const rankIcons: string[] = [];
+  let medalsAssigned = 0;
 
-  if (votes.length > 5) {
-    return (
-      <ScrollArea className="h-[480px] border border-primary/50 rounded-md">
-        {
-          sortedVotes.map(([name, count], index) => {
-            if (count < currentVoteCount) {
-              currentRank = index + 1;
-              currentVoteCount = count;
-            }
-
-            const icon = crownIcons[currentRank - 1] || '';
-
-            return <VoteItem key={index} name={name} count={count} icon={icon} className='mb-2' />
-          })
-        }
-      </ScrollArea>
-    )
-  }
-
-  return sortedVotes.map(([name, count], index) => {
+  // 各順位に応じたアイコンを設定する
+  sortedVotes.forEach(([name, count], index) => {
     if (count < currentVoteCount) {
       currentRank = index + 1;
       currentVoteCount = count;
+      // メダルを割り当てた数がまだ3つ以下の場合は次のメダルを使う
+      if (medalsAssigned < 3) medalsAssigned++;
     }
 
-    const icon = crownIcons[currentRank - 1] || '';
+    // 上から3つの順位にアイコンを設定（同順位の企画は同じアイコンを持つ）
+    rankIcons.push(medalsAssigned < 3 ? crownIcons[medalsAssigned] : '');
+  });
 
-    return <VoteItem key={index} name={name} count={count} icon={icon} />
+  // 各項目をレンダリング
+  return sortedVotes.map(([name, count], index) => {
+    return (
+      <VoteItem
+        key={index}
+        name={name}
+        count={count}
+        icon={rankIcons[index]}
+        className={votes.length > 5 ? 'mb-2' : ''}
+      />
+    );
   });
 }
 
