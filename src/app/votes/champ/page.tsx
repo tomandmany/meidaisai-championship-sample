@@ -65,9 +65,9 @@ export default async function Page({ searchParams }: PageProps) {
         allPrograms={programData}
         filteredPrograms={filteredPrograms}
       />
-      {/* {votesHistory.length > 0 && (
+      {votesHistory.length > 0 && (
         <MCTicketContext userId={userId} ticketUsed={ticketUsed} isFinishedTicketTutorial={isFinishedTicketTutorial} votesHistory={votesHistory} />
-      )} */}
+      )}
     </>
   );
 }
