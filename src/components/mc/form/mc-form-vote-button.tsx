@@ -73,7 +73,15 @@ export default function MCFormVoteButton({ selectedPrograms, user_id, testDate, 
 
     // isVotingTime が null の間は何も表示しないことでちらつきを防ぐ
     if (isVotingTime === null) {
-        return <div>Loading...</div>;
+        return (
+            <Button
+                type='button'
+                className={`w-full h-[39px] mt-3 sm:mt-2 bg-[#E07594] hover:bg-[#c56681] ${loading || selectedPrograms.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={loading || selectedPrograms.length === 0}
+            >
+                <LoaderCircle className="animate-spin" />
+            </Button>
+        );
     }
 
     return (

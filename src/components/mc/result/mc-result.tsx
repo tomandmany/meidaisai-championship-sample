@@ -42,7 +42,7 @@ export default function McResult({ departments, allVotes }: MCResultProps) {
       <div className="font-bold pl-6 sm:pl-0 text-xl text-white h-[50px] flex items-center sm:justify-center bg-[#EB9697] sticky left-0 top-0 z-mc-history-title">
         投票結果
       </div>
-      <div className="sm:min-h-[calc(100svh-50px)] flex flex-wrap justify-center gap-2 sm:gap-10 sm:py-16">
+      <div className="sm:min-h-[calc(100svh-50px)] mx-5 my-10 sm:my-0 flex flex-col sm:flex-row justify-center gap-2 sm:gap-10 sm:py-16">
         {/* {Object.entries(filteredVotesByDepartment).map(([department, votes]) => (
           <MCResultByDepartment key={department} department={department || "不明な部門"} votes={votes} />
         ))} */}
