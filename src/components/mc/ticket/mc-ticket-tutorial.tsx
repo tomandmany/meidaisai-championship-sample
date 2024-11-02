@@ -4,21 +4,18 @@
 import { ArrowDown, X } from "lucide-react";
 import Ticket from "@/components/mc/ticket/mc-ticket";
 import { Button } from "@/components/ui/button";
-import setTutorial from "@/actions/tutorial/setTutorial";
+import { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 
 interface MCTicketTutorialProps {
     user_id: string;
     ticketUsed: boolean;
+    isTicketModalOpen: boolean;
+    setIsTicketModalOpen: Dispatch<SetStateAction<boolean>>;
+    finishTutorial: () => void;
 }
 
-export default function MCTicketTutorial({ user_id, ticketUsed }: MCTicketTutorialProps) {
-    function finishTutorial() {
-        setTutorial({
-            user_id: user_id,
-            tutorial_name: 'ticket'
-        })
-    }
-
+export default function MCTicketTutorial({ user_id, ticketUsed, isTicketModalOpen, setIsTicketModalOpen, finishTutorial }: MCTicketTutorialProps) {
     return (
         <div
             className="fixed inset-0 bg-black/95 z-mc-ticket-tutorial-modal"
@@ -27,17 +24,6 @@ export default function MCTicketTutorial({ user_id, ticketUsed }: MCTicketTutori
                 className="fixed inset-0"
                 onClick={finishTutorial}
             />
-            <div className="fixed left-4 bottom-16 flex items-start flex-col">
-                <p className="text-lg text-white">
-                    こちらをタップすると、
-                    <br />
-                    抽選券の使用画面に移ります。
-                </p>
-                <div className="space-y-4">
-                    <ArrowDown className="w-fit mx-aut text-white" />
-                    <Ticket userId={user_id} ticketUsed={ticketUsed} />
-                </div>
-            </div>
             <Button
                 type="button"
                 variant="outline"
@@ -46,6 +32,23 @@ export default function MCTicketTutorial({ user_id, ticketUsed }: MCTicketTutori
             >
                 <X className="min-w-5 min-h-5 sm:min-w-6 sm:min-h-6 lg:min-w-8 lg:min-h-8" />
             </Button>
+            <div className="fixed left-4 bottom-16 flex items-start flex-col">
+                <p className="text-lg text-white">
+                    こちらをタップすると、
+                    <br />
+                    抽選券の使用画面に移ります。
+                </p>
+                <ArrowDown className="w-fit text-white mb-4" />
+                {/* <Ticket userId={user_id} ticketUsed={ticketUsed} /> */}
+                <Ticket userId={user_id} ticketUsed={ticketUsed} isTicketModalOpen={isTicketModalOpen} setIsTicketModalOpen={setIsTicketModalOpen} finishTutorial={finishTutorial} />
+                {/* <Button
+                    type="button"
+                    onClick={() => setIsTicketModalOpen(prev => !prev)}
+                    className="w-fit h-fit object-contain p-0 sm:bottom-16 md:bottom-20 lg:bottom-[90px] xl:bottom-[110px]"
+                >
+                    <Image src="/votes/ticket.svg" alt="抽選券" width={200} height={200} className="w-52 sm:w-60 md:w-72 lg:w-80 xl:w-96" />
+                </Button> */}
+            </div>
         </div>
     )
 }

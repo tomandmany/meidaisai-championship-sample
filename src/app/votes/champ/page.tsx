@@ -49,11 +49,13 @@ export default async function Page({ searchParams }: PageProps) {
 
   const filteredPrograms = filterPrograms(todayStr, votesHistory);
 
+  const isFinishedTicketTutorial = await getTutorials(userId, 'ticket');
+
   return (
     <>
-      {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
+      {/* {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
         <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} />
-      )}
+      )} */}
       <MCForm
         user_id={userId}
         votesHistory={votesHistory}
@@ -64,7 +66,7 @@ export default async function Page({ searchParams }: PageProps) {
         filteredPrograms={filteredPrograms}
       />
       {votesHistory.length > 0 && (
-        <MCTicketContext userId={userId!} ticketUsed={ticketUsed} />
+        <MCTicketContext userId={userId!} ticketUsed={ticketUsed} isFinishedTicketTutorial={isFinishedTicketTutorial} votesHistory={votesHistory} />
       )}
     </>
   );

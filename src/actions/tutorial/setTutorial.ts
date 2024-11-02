@@ -14,6 +14,7 @@ export default async function setTutorial({
   user_id,
   tutorial_name,
 }: SetTutorialParams): Promise<void> {
+  console.log('setTutorial.tsが呼ばれました。');
   const isFinishedTutorial = await getTutorials(user_id, tutorial_name);
   if (isFinishedTutorial) {
     console.error('チュートリアルは終了しています。: ', user_id, tutorial_name);

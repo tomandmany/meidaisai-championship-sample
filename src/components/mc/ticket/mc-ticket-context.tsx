@@ -7,14 +7,26 @@ import Ticket from '@/components/mc/ticket/mc-ticket'
 import { DndContext, DragEndEvent, DragMoveEvent, TouchSensor } from '@dnd-kit/core';
 import { useRef, useState } from 'react';
 import { MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
+import MCTicketTutorial from './mc-ticket-tutorial';
+import setTutorial from '@/actions/tutorial/setTutorial';
 
 interface MCTicketContextProps {
     userId: string;
     ticketUsed: boolean;
+    isFinishedTicketTutorial: boolean;
+    votesHistory: Vote[];
 }
 
-export default function MCTicketContext({ userId, ticketUsed }: MCTicketContextProps) {
+export default function MCTicketContext({ userId, ticketUsed, isFinishedTicketTutorial, votesHistory }: MCTicketContextProps) {
+    const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
     const [ticketPosition, setTicketPosition] = useState<{ x: number; y: number }>({ x: 0, y: -0 });
+
+    async function finishTutorial() {
+        await setTutorial({
+            user_id: userId,
+            tutorial_name: 'ticket'
+        })
+    }
 
     const cumulativePosition = useRef({ x: 0, y: 0 });
 
@@ -50,13 +62,18 @@ export default function MCTicketContext({ userId, ticketUsed }: MCTicketContextP
     );
 
     return (
-        <DndContext
-            onDragMove={handleDragMove}
-            onDragEnd={handleDragEnd}
-            sensors={sensors}
-        >
-            <TicketDroppableArea />
-            <Ticket position={ticketPosition} userId={userId} ticketUsed={ticketUsed} />
-        </DndContext>
+        <>
+            <DndContext
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+                sensors={sensors}
+            >
+                <TicketDroppableArea />
+                <Ticket position={ticketPosition} userId={userId} ticketUsed={ticketUsed} isTicketModalOpen={isTicketModalOpen} setIsTicketModalOpen={setIsTicketModalOpen} finishTutorial={finishTutorial} />
+            </DndContext>
+            {votesHistory.length > 0 && !isFinishedTicketTutorial && (
+                <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} isTicketModalOpen={isTicketModalOpen} setIsTicketModalOpen={setIsTicketModalOpen} finishTutorial={finishTutorial} />
+            )}
+        </>
     )
 }
