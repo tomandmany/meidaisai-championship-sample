@@ -24,40 +24,40 @@ interface PageProps {
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  // const { userId } = auth();
-  // const testDate = searchParams.testDate
-  //   ? new Date(`2024-${searchParams.testDate}`)
-  //   : undefined;
+  const { userId } = auth();
+  const testDate = searchParams.testDate
+    ? new Date(`2024-${searchParams.testDate}`)
+    : undefined;
   
-  // const today = testDate || new Date();
-  // const todayStr = today.toISOString().split('T')[0];
+  const today = testDate || new Date();
+  const todayStr = today.toISOString().split('T')[0];
 
-  // const votingStatus = getVotingStatus(today);
+  const votingStatus = getVotingStatus(today);
 
-  // if (!userId) return renderUnauthenticatedView(votingStatus);
+  if (!userId) return renderUnauthenticatedView(votingStatus);
 
-  // const { ticketUsed } = await fetchUserTicketStatus(userId);
-  // const votesHistory = await getVotesHistory(userId);
+  const { ticketUsed } = await fetchUserTicketStatus(userId!);
+  const votesHistory = await getVotesHistory(userId!);
 
-  // if (votingStatus.isBefore) return <MCPeriodBefore />;
-  // if (votingStatus.isAfter)
-  //   return renderAfterVotingView({
-  //     userId,
-  //     votesHistory,
-  //     testDate,
-  //   });
+  if (votingStatus.isBefore) return <MCPeriodBefore />;
+  if (votingStatus.isAfter)
+    return renderAfterVotingView({
+      userId,
+      votesHistory,
+      testDate,
+    });
 
-  // const filteredPrograms = filterPrograms(todayStr, votesHistory);
+  const filteredPrograms = filterPrograms(todayStr, votesHistory);
 
-  // const isFinishedTicketTutorial = await getTutorials(userId, 'ticket');
+  const isFinishedTicketTutorial = await getTutorials(userId, 'ticket');
 
   return (
     <>
       {/* {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
         <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} />
       )} */}
-      <div>現在投票できません。</div>
-      {/* <MCForm
+      {/* <div>現在投票できません。</div> */}
+      <MCForm
         user_id={userId}
         votesHistory={votesHistory}
         testDate={testDate}
@@ -68,7 +68,7 @@ export default async function Page({ searchParams }: PageProps) {
       />
       {votesHistory.length > 0 && (
         <MCTicketContext userId={userId} ticketUsed={ticketUsed} isFinishedTicketTutorial={isFinishedTicketTutorial} votesHistory={votesHistory} />
-      )} */}
+      )}
     </>
   );
 }

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import MCLabel from "@/components/mc/other/mc-label";
-import MCAuthSignInGuidance from "@/components/mc/auth/mc-auth-sign-in-guidance";
+import MCSignInButton from "@/components/mc/auth/mc-auth-sign-in-button";
 
 export default function MCSignInGuidance() {
     return (
@@ -30,7 +30,7 @@ export default function MCSignInGuidance() {
                     height={150}
                     className="mx-auto"
                 />
-                <MCAuthSignInGuidance />
+                <MCSignInButton />
             </CardContent>
         </Card>
     )
