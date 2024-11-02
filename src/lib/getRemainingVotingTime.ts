@@ -24,7 +24,7 @@ export default function getRemainingVotingTimes(day: string, testDate?: Date): {
     const startDelay = start.getTime() > now.getTime() ? start.getTime() - now.getTime() : 0;
     const endDelay = end.getTime() > now.getTime() ? end.getTime() - now.getTime() : 0;
 
-    console.log(`Debug: day=${day}, now=${now}, start=${start}, end=${end}, startDelay=${startDelay}, endDelay=${endDelay}`);
+    // console.log(`Debug: day=${day}, now=${now}, start=${start}, end=${end}, startDelay=${startDelay}, endDelay=${endDelay}`);
 
     return {
         startDelay,

@@ -3,7 +3,8 @@
 import { getAllVotes } from "@/data/getAllVotes";
 import MCResult from "@/components/mc/result/mc-result";
 
-const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
+// const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
+const departments = ['模擬店部門', '教室部門'];
 
 export default async function Page() {
   const allVotes = await getAllVotes();
