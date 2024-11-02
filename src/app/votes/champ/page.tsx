@@ -5,7 +5,7 @@ import MCPeriodAfterWithOutUserID from "@/components/mc/period/mc-period-after-w
 import MCPeriodAfterWithUserID from "@/components/mc/period/mc-period-after-with-user-id";
 import MCPeriodBefore from "@/components/mc/period/mc-period-before";
 import MCSignInGuidance from "@/components/mc/auth/mc-auth-sign-in-guidance";
-import MCTicketTutorial from "@/components/mc/ticket/mc-ticket-tutorial";
+// import MCTicketTutorial from "@/components/mc/ticket/mc-ticket-tutorial";
 import MCTicketContext from "@/components/mc/ticket/mc-ticket-context";
 import MCForm from "@/components/mc/form/mc-form";
 

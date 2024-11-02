@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "supabase:generate-types": "npx supabase gen types typescript --project-id 'klskminxamsqyxotbwsw' --schema public > src/types/supabase.types.ts"
+    "supabase:generate-types": "npx supabase gen types typescript --project-id 'yeiduvjdnvqhqwkyhgum' --schema public > src/types/supabase.types.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^2.4.3",
