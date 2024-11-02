@@ -56,7 +56,7 @@ export default async function Page({ searchParams }: PageProps) {
       {/* {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
         <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} />
       )} */}
-      <div>aaa</div>
+      <div>現在投票できません。</div>
       {/* <MCForm
         user_id={userId}
         votesHistory={votesHistory}
