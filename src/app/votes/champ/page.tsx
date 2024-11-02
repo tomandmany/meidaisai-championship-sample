@@ -24,32 +24,32 @@ interface PageProps {
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const { userId } = auth();
-  const testDate = searchParams.testDate
-    ? new Date(`2024-${searchParams.testDate}`)
-    : undefined;
+  // const { userId } = auth();
+  // const testDate = searchParams.testDate
+  //   ? new Date(`2024-${searchParams.testDate}`)
+  //   : undefined;
   
-  const today = testDate || new Date();
-  const todayStr = today.toISOString().split('T')[0];
+  // const today = testDate || new Date();
+  // const todayStr = today.toISOString().split('T')[0];
 
-  const votingStatus = getVotingStatus(today);
+  // const votingStatus = getVotingStatus(today);
 
-  if (!userId) return renderUnauthenticatedView(votingStatus);
+  // if (!userId) return renderUnauthenticatedView(votingStatus);
 
-  const { ticketUsed } = await fetchUserTicketStatus(userId);
-  const votesHistory = await getVotesHistory(userId);
+  // const { ticketUsed } = await fetchUserTicketStatus(userId);
+  // const votesHistory = await getVotesHistory(userId);
 
-  if (votingStatus.isBefore) return <MCPeriodBefore />;
-  if (votingStatus.isAfter)
-    return renderAfterVotingView({
-      userId,
-      votesHistory,
-      testDate,
-    });
+  // if (votingStatus.isBefore) return <MCPeriodBefore />;
+  // if (votingStatus.isAfter)
+  //   return renderAfterVotingView({
+  //     userId,
+  //     votesHistory,
+  //     testDate,
+  //   });
 
-  const filteredPrograms = filterPrograms(todayStr, votesHistory);
+  // const filteredPrograms = filterPrograms(todayStr, votesHistory);
 
-  const isFinishedTicketTutorial = await getTutorials(userId, 'ticket');
+  // const isFinishedTicketTutorial = await getTutorials(userId, 'ticket');
 
   return (
     <>
