@@ -11,6 +11,7 @@ import getRemainingVotingTimes from "@/lib/getRemainingVotingTime";
 import Header from "@/components/mc/other/header";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import getJSTDate from "@/lib/getJSTDate";
 
 interface MCFormVoteButtonProps {
     selectedPrograms: { id: string; title: string, department: string, date: string }[];
@@ -25,7 +26,8 @@ export default function MCFormVoteButton({ selectedPrograms, user_id, testDate, 
 
     useEffect(() => {
         const checkVotingStatus = () => {
-            const today = testDate ? testDate.toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+            const today = testDate ? testDate.toISOString().slice(0, 10) : getJSTDate().slice(0, 10);
+            // const today = testDate ? testDate.toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
             const { startDelay, endDelay } = getRemainingVotingTimes(today, testDate);
 
             if (startDelay === 0 && endDelay !== null && endDelay > 0) {

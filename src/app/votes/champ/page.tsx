@@ -16,7 +16,8 @@ import getTutorials from "@/data/getTutorials";
 import { getVotingStatus } from "@/lib/getVotingStatus";
 import { extractDayFromDate, mapDateToDay } from "@/lib/voteUtils";
 
-const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
+const departments = ['模擬店部門', '教室部門'];
+// const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
 const days = ['2024-11-02', '2024-11-03', '2024-11-04'];
 
 interface PageProps {
