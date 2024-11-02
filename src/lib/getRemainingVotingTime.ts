@@ -7,7 +7,7 @@ export default function getRemainingVotingTimes(day: string, testDate?: Date): {
     const now = new Date(nowString);
 
     const votingPeriods: { [key: string]: { start: string; end: string } } = {
-        '2024-11-02': { start: '2024-11-02T11:00:00', end: '2024-11-02T18:00:00' },
+        '2024-11-02': { start: '2024-11-02T06:00:00', end: '2024-11-02T18:00:00' },
         '2024-11-03': { start: '2024-11-03T11:00:00', end: '2024-11-03T18:00:00' },
         '2024-11-04': { start: '2024-11-04T11:00:00', end: '2024-11-04T16:30:00' },
     };
