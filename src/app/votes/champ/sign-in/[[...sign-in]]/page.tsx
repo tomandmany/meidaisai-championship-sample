@@ -3,9 +3,9 @@ import { SignIn } from '@clerk/nextjs';
 
 const SignInPage = () => {
     return (
-        <main className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen">
             <SignIn />
-        </main>
+        </div>
     );
 };
 

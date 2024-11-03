@@ -26,10 +26,11 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const { userId } = auth();
+
   const testDate = searchParams.testDate
     ? new Date(`2024-${searchParams.testDate}`)
     : undefined;
-  
+
   const today = testDate || new Date();
   const todayStr = today.toISOString().split('T')[0];
 
