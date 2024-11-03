@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 
 interface InsertVoteParams {
   user_id: string;
-  programs: { id: string; title: string; department: string }[];
+  programs: { id: string; title: string; department: string, date: string }[];
   testDate?: Date;
 }
 
@@ -50,7 +50,7 @@ export default async function insertVote({
 
   programs.map((program) => {
     votesHistory.map((vote) => {
-      if (vote.program_id === program.id) {
+      if (vote.program_id === program.id && program.date !== '全日') {
         console.error('すでに投票済みです:', program, vote);
         throw new Error('すでに投票済みです');
       }
