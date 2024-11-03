@@ -23,7 +23,7 @@ function filterVotesByDepartment(votes: { program_name: string; department: stri
   }, {} as Record<string, [string, number][]>);
 }
 
-export default function McResult({ departments, allVotes }: MCResultProps) {
+export default function MCResult({ departments, allVotes }: MCResultProps) {
   if (allVotes.length === 0) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black">
