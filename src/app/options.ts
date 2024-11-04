@@ -17,14 +17,9 @@ export const authOptions: NextAuthOptions = {
       if (user.id) {
         const user_id = user.id; // LINEから返されたユーザーIDを取得
         try {
-          const { error: insertUserError } = await supabase.from('users').insert({
+          await supabase.from('users').insert({
             user_id,
           });
-
-          if (insertUserError) {
-            console.error("ユーザーの保存中にエラーが発生しました:", insertUserError);
-            return false; // ログインをキャンセル
-          }
         } catch (error) {
           console.error("ユーザーの保存中にエラーが発生しました:", error);
           return false; // ログインをキャンセル

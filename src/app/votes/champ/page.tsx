@@ -15,7 +15,6 @@ import { getVotingStatus } from "@/lib/getVotingStatus";
 import { extractDayFromDate, mapDateToDay } from "@/lib/voteUtils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/options";
-import { redirect } from "next/navigation";
 
 const departments = ['模擬店部門', '教室部門'];
 // const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
@@ -29,7 +28,8 @@ export default async function Page({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions);
   if (!session) {
     // redirect(`${process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL}/sign-in`);
-    throw new Error('セッションがありません');
+    // throw new Error('セッションがありません');
+    return <MCSignInGuidance />;
   }
   const userId = session.user.user_id;
   
