@@ -1,4 +1,6 @@
 // app/page.tsx
+import { auth } from "@clerk/nextjs/server";
+
 import MCPeriodAfterWithOutUserID from "@/components/mc/period/mc-period-after-without-user-id";
 import MCPeriodAfterWithUserID from "@/components/mc/period/mc-period-after-with-user-id";
 import MCPeriodBefore from "@/components/mc/period/mc-period-before";
@@ -13,9 +15,6 @@ import { programData } from "@/data/programData";
 import getTutorials from "@/data/getTutorials";
 import { getVotingStatus } from "@/lib/getVotingStatus";
 import { extractDayFromDate, mapDateToDay } from "@/lib/voteUtils";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/options";
-import { redirect } from "next/navigation";
 
 const departments = ['模擬店部門', '教室部門'];
 // const departments = ['模擬店部門', '屋外ステージ部門', '教室部門'];
@@ -26,17 +25,7 @@ interface PageProps {
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    // redirect(`${process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL}/sign-in`);
-    throw new Error('セッションがありません');
-  }
-  const userId = session.user.user_id;
-  
-  console.log('userId: ', userId); // セッション情報をログに出力
-  const { data } = await getUserData(userId);
-
-  const registered_user_id = data?.user_id;
+  const { userId } = auth();
 
   const testDate = searchParams.testDate
     ? new Date(`2024-${searchParams.testDate}`)
@@ -47,7 +36,7 @@ export default async function Page({ searchParams }: PageProps) {
 
   const votingStatus = getVotingStatus(today);
 
-  if (userId !== registered_user_id) return renderUnauthenticatedView(votingStatus);
+  if (!userId) return renderUnauthenticatedView(votingStatus);
 
   const { ticketUsed } = await fetchUserTicketStatus(userId!);
   const votesHistory = await getVotesHistory(userId!);
@@ -66,6 +55,10 @@ export default async function Page({ searchParams }: PageProps) {
 
   return (
     <>
+      {/* {votesHistory.length > 0 && !(await getTutorials(userId, 'ticket')) && (
+        <MCTicketTutorial user_id={userId} ticketUsed={ticketUsed} />
+      )} */}
+      {/* <div>現在投票できません。</div> */}
       <MCForm
         user_id={userId}
         votesHistory={votesHistory}
