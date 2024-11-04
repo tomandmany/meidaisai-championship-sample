@@ -132,7 +132,7 @@ export default function MCFormVoteButton({ selectedPrograms, user_id, testDate, 
                     </div>
                 </div>
             )}
-            <div className='invisible min-w-12 min-h-[36px] mt-2 sm:hidden' />
+            {/* <div className='invisible min-w-12 min-h-[36px] mt-2 sm:hidden' /> */}
         </div>
     );
 }

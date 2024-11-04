@@ -194,10 +194,10 @@ export default function MCForm({
                     testDate={testDate}
                 />
             )}
-            <MCHistoryToggleButton
+            {/* <MCHistoryToggleButton
                 showHistory={showHistory}
                 setShowHistory={setShowHistory}
-            />
+            /> */}
         </form>
     );
 }
