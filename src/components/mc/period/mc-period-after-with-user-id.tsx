@@ -55,9 +55,11 @@ export default function MCAuthAfterVotingPeriodWithUserID({
             <CardContent className="p-0">
               <h2 className="font-bold text-2xl leading-10 text-center mb-4">
                 投票期間は終了しました。
+                <br />
+                <span className="text-base font-normal">投票にご協力いただきありがとうございました。</span>
               </h2>
               <div className="space-y-2">
-                <h6 className="font-bold">投票日時</h6>
+                <h6 className="font-bold">投票期間</h6>
                 <span>11月2日(土)11：00～11月4日(月・祝)17：00</span>
               </div>
               {/* <div className="mx-auto w-fit space-y-2 text-primary/80">
