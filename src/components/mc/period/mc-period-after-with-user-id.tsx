@@ -63,7 +63,7 @@ export default function MCAuthAfterVotingPeriodWithUserID({
               </div>
               <div className="mx-auto w-fit space-y-2 text-primary/80">
                 <ViewOption Icon={HistoryIcon} label="投票履歴を見ることができます。" />
-                <ViewOption Icon={Crown} label="投票結果を見ることができます。" />
+                {/* <ViewOption Icon={Crown} label="投票結果を見ることができます。" /> */}
               </div>
             </CardContent>
           </Card>
