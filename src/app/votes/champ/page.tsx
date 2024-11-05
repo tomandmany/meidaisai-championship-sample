@@ -33,7 +33,6 @@ export default async function Page({ searchParams }: PageProps) {
   }
   const userId = session.user.user_id;
   
-  console.log('userId: ', userId); // セッション情報をログに出力
   const { data } = await getUserData(userId);
 
   const registered_user_id = data?.user_id;

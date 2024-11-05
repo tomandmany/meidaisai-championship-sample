@@ -56,23 +56,22 @@ export default function MCAuthAfterVotingPeriodWithUserID({
               <h2 className="font-bold text-2xl leading-10 text-center mb-4">
                 投票期間は終了しました。
               </h2>
-              <div className="space-y-2 mb-8">
-                {/* <MCLabel>投票日時</MCLabel> */}
+              <div className="space-y-2">
                 <h6 className="font-bold">投票日時</h6>
                 <span>11月2日(土)11：00～11月4日(月・祝)17：00</span>
               </div>
-              <div className="mx-auto w-fit space-y-2 text-primary/80">
+              {/* <div className="mx-auto w-fit space-y-2 text-primary/80">
                 <ViewOption Icon={HistoryIcon} label="投票履歴を見ることができます。" />
-                {/* <ViewOption Icon={Crown} label="投票結果を見ることができます。" /> */}
-              </div>
+                <ViewOption Icon={Crown} label="投票結果を見ることができます。" />
+              </div> */}
             </CardContent>
           </Card>
         </div>
       )}
-      <MCToggleHistoryButton
+      {/* <MCToggleHistoryButton
         showHistory={showHistory}
         setShowHistory={setShowHistory}
-      />
+      /> */}
     </>
   );
 }
